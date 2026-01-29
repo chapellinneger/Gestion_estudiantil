@@ -1,44 +1,50 @@
 <odoo>
   <data>
-    <!-- Explicit list view definition -->
-    <record model="ir.ui.view" id="gestion_estudiantil.student_list">
-      <field name="name">gestion_estudiantil.student.list</field>
-      <field name="model">gestion_estudiantil.student</field>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="gestion_estudiantil.list">
+      <field name="name">gestion_estudiantil list</field>
+      <field name="model">gestion.estudiantil</field>
       <field name="arch" type="xml">
         <list>
           <field name="name"/>
-          <field name="description"/>
-          <field name="active"/>
+          <field name="value"/>
+          <field name="value2"/>
         </list>
       </field>
     </record>
 
-    <!-- Form view -->
-    <record model="ir.ui.view" id="gestion_estudiantil.student_form">
-      <field name="name">gestion_estudiantil.student.form</field>
-      <field name="model">gestion_estudiantil.student</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="name"/>
-              <field name="description"/>
-              <field name="active"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
-
-    <!-- Actions -->
+    <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="gestion_estudiantil.action_window">
-      <field name="name">Estudiantes</field>
-      <field name="res_model">gestion_estudiantil.student</field>
+      <field name="name">Gestion Estudiantil window</field>
+      <field name="res_model">gestion.estudiantil</field>
       <field name="view_mode">list,form</field>
     </record>
 
-    <!-- Menu items -->
+    <!-- server action to the one above -->
+    <record model="ir.actions.server" id="gestion_estudiantil.action_server">
+      <field name="name">Gestion Estudiantil Server Action</field>
+      <field name="model_id" ref="model_gestion_estudiantil"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+    <!-- Top menu item -->
     <menuitem name="Gestion Estudiantil" id="gestion_estudiantil.menu_root"/>
-    <menuitem name="Estudiantes" id="gestion_estudiantil.menu_1" parent="gestion_estudiantil.menu_root" action="gestion_estudiantil.action_window"/>
+
+    <!-- menu categories -->
+    <menuitem name="Menu 1" id="gestion_estudiantil.menu_1" parent="gestion_estudiantil.menu_root"/>
+    <menuitem name="Menu 2" id="gestion_estudiantil.menu_2" parent="gestion_estudiantil.menu_root"/>
+
+    <!-- actions -->
+    <menuitem name="List" id="gestion_estudiantil.menu_1_list" parent="gestion_estudiantil.menu_1"
+              action="gestion_estudiantil.action_window"/>
+    <menuitem name="Server Action" id="gestion_estudiantil.menu_2_server" parent="gestion_estudiantil.menu_2"
+              action="gestion_estudiantil.action_server"/>
   </data>
 </odoo>

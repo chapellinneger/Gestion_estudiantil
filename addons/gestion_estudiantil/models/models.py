@@ -1,9 +1,15 @@
 from odoo import models, fields, api
 
-class Student(models.Model):
-    _name = 'gestion_estudiantil.student'
-    _description = 'Estudiante'
+class GestionEstudiantil(models.Model):
+    _name = 'gestion.estudiantil'
+    _description = 'Gestion Estudiantil'
 
-    name = fields.Char(string="Nombre", required=True)
-    description = fields.Text(string="Descripción")
-    active = fields.Boolean(string="Activo", default=True)
+    name = fields.Char()
+    value = fields.Integer()
+    value2 = fields.Float(compute="_value_pc", store=True)
+    description = fields.Text()
+
+    @api.depends('value')
+    def _value_pc(self):
+        for record in self:
+            record.value2 = float(record.value) / 100
