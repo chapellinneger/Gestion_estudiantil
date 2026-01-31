@@ -1,43 +1,53 @@
 <odoo>
   <data>
-    <!-- Explicit list view definition -->
-    <record model="ir.ui.view" id="gestion_profesorado.profesor_list">
-      <field name="name">gestion_profesorado.profesor.list</field>
-      <field name="model">gestion_profesorado.profesor</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="name"/>
-          <field name="description"/>
-          <field name="active"/>
-        </list>
-      </field>
+    <record model="ir.ui.view" id="view_teacher_tree">
+        <field name="name">res.users.tree.teacher</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="login"/>
+                <field name="is_teacher"/>
+            </list>
+        </field>
     </record>
 
-    <!-- Form view -->
-    <record model="ir.ui.view" id="gestion_profesorado.profesor_form">
-      <field name="name">gestion_profesorado.profesor.form</field>
-      <field name="model">gestion_profesorado.profesor</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="name"/>
-              <field name="description"/>
-              <field name="active"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
+    <record model="ir.ui.view" id="view_teacher_form">
+        <field name="name">res.users.form.teacher</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del Profesor"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Datos de Contacto">
+                            <field name="login" string="Correo Electrónico"/>
+                            <field name="is_teacher" string="¿Es Profesor?"/>
+                        </group>
+                        <group string="Validación">
+                            <field name="signature" widget="signature" invisible="not is_teacher"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
     </record>
 
-    <!-- Actions -->
     <record model="ir.actions.act_window" id="gestion_profesorado.action_window">
       <field name="name">Profesores</field>
-      <field name="res_model">gestion_profesorado.profesor</field>
+      <field name="res_model">res.users</field>
       <field name="view_mode">list,form</field>
+      <field name="view_ids" eval="[(5, 0, 0), 
+          (0, 0, {'view_mode': 'list', 'view_id': ref('view_teacher_tree')}), 
+          (0, 0, {'view_mode': 'form', 'view_id': ref('view_teacher_form')})]"/>
+      <field name="domain">[('is_teacher', '=', True)]</field>
+      <field name="context">{'default_is_teacher': True}</field>
     </record>
 
-    <!-- Menu items -->
     <menuitem name="Gestion Profesorado" id="gestion_profesorado.menu_root"/>
     <menuitem name="Profesores" id="gestion_profesorado.menu_1" parent="gestion_profesorado.menu_root" action="gestion_profesorado.action_window"/>
   </data>
