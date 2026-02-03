@@ -1,13 +1,18 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
-class TeacherUser(models.Model):
-    _inherit = "res.users"
+class Teacher(models.Model):
+    _name = 'gestion.teacher'
+    _description = 'Teacher'
+    _inherits = {'res.partner': 'partner_id'}
+
+    partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
+    user_id = fields.Many2one('res.users', string='Related User')
 
     # Campos de la tabla técnica
     is_teacher = fields.Boolean(
         string="Es Profesor", 
         default=True,
-        help="Flag para filtrar usuarios en campos relacionales y reglas de seguridad."
+        help="Flag para identificar profesores."
     )
     
     # Cambiamos el string a uno genérico para que no diga "Docente" por defecto
@@ -15,6 +20,22 @@ class TeacherUser(models.Model):
         string="Firma Digital",
         help="Firma digital para la generación de actas oficiales y reportes."
     )
+    
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super(Teacher, self).create(vals_list)
+        for record in records:
+            if not record.user_id and record.email:
+                # Create user automatically
+                user_vals = {
+                    'name': record.name,
+                    'login': record.email,
+                    'partner_id': record.partner_id.id,
+                    'groups_id': [(4, self.env.ref('gestion_profesorado.group_profesor').id)],
+                }
+                user = self.env['res.users'].create(user_vals)
+                record.user_id = user
+        return records
 
     # Estos campos se dejan comentados para evitar errores de relación 
     # hasta que los modelos de Materias y Secciones existan en el sistema.

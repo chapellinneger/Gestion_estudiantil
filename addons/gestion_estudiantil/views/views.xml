@@ -1,29 +1,55 @@
 <odoo>
-    <record id="view_users_form_inherit_estudiantil" model="ir.ui.view">
-        <field name="name">res.users.form.inherit.estudiantil</field>
-        <field name="model">res.users</field>
-        <field name="inherit_id" ref="base.view_users_form"/>
+    <delete model="ir.ui.view" id="view_users_form_inherit_estudiantil"/>
+
+    <!-- Tree View for Students -->
+    <record id="view_student_tree" model="ir.ui.view">
+        <field name="name">gestion.student.tree</field>
+        <field name="model">gestion.student</field>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='access_rights']" position="after">
-                <page string="Portal del Estudiante" name="student_portal">
+            <list>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="enrollment_number"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View for Students -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">gestion.student.form</field>
+        <field name="model">gestion.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del Estudiante"/>
+                        </h1>
+                    </div>
                     <group>
-                        <group string="Información General">
+                        <group string="Información Personal">
+                            <field name="partner_id" invisible="1"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="user_id" invisible="1"/>
+                        </group>
+                        <group string="Información Académica">
                             <field name="enrollment_number"/>
                         </group>
                     </group>
                     <group string="Historial Académico">
                         <field name="academic_history"/>
                     </group>
-                    </page>
-            </xpath>
+                </sheet>
+            </form>
         </field>
     </record>
 
+    <!-- Action for Students -->
     <record id="action_estudiantes_final" model="ir.actions.act_window">
         <field name="name">Estudiantes</field>
-        <field name="res_model">res.users</field>
+        <field name="res_model">gestion.student</field>
         <field name="view_mode">list,form</field>
-        <field name="domain">[('enrollment_number', '!=', False)]</field>
     </record>
 
     <menuitem id="menu_estudiantil_root" name="Gestión Estudiantil" sequence="1"/>

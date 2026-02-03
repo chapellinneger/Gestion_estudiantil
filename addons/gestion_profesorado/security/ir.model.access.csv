@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_res_users_profesor,res.users.profesor,base.model_res_users,group_profesor,1,1,1,1
-access_res_users_estudiante,res.users.estudiante,base.model_res_users,group_estudiante,1,0,0,0
+access_gestion_teacher,gestion.teacher,model_gestion_teacher,group_profesor,1,1,1,1
+access_gestion_teacher_admin,gestion.teacher.access.admin,model_gestion_teacher,base.group_system,1,1,1,1
+access_gestion_teacher_student,gestion.teacher.student,model_gestion_teacher,group_estudiante,1,0,0,0
