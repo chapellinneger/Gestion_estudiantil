@@ -1,15 +1,11 @@
-from odoo import models, fields, api
+from odoo import models, fields
 
-class GestionEstudiantil(models.Model):
-    _name = 'gestion.estudiantil'
-    _description = 'Gestion Estudiantil'
+class ResUsers(models.Model):
+    _inherit = 'res.users'
 
-    name = fields.Char()
-    value = fields.Integer()
-    value2 = fields.Float(compute="_value_pc", store=True)
-    description = fields.Text()
-
-    @api.depends('value')
-    def _value_pc(self):
-        for record in self:
-            record.value2 = float(record.value) / 100
+    enrollment_number = fields.Char(string="Número de Matrícula")
+    academic_history = fields.Text(string="Historial Académico")
+    
+    # Relaciones que dan problemas
+    # section_ids = fields.Many2many('gestion.seccion', string="Secciones")
+    # grade_ids = fields.One2many('gestion.nota', 'student_id', string="Notas")
