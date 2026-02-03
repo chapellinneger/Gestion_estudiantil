@@ -6,8 +6,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="login"/>
-                <field name="is_teacher"/>
+                <field name="login" string="Correo"/>
             </list>
         </field>
     </record>
@@ -26,10 +25,10 @@
                     <group>
                         <group string="Datos de Contacto">
                             <field name="login" string="Correo Electrónico"/>
-                            <field name="is_teacher" string="¿Es Profesor?"/>
+                            <field name="is_teacher" invisible="1"/> 
                         </group>
                         <group string="Validación">
-                            <field name="signature" widget="signature" invisible="not is_teacher"/>
+                            <field name="signature" widget="signature" string="Firma del Docente"/>
                         </group>
                     </group>
                 </sheet>
