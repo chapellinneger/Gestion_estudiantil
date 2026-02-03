@@ -6,7 +6,7 @@
         </record>
 
         <record id="object1" model="gestion.estudiantil">
-            <field name="name">Object 1</field>
+            <field name="name">a</field>
             <field name="value">10</field>
         </record>
 
