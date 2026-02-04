@@ -1,0 +1,10 @@
+<odoo>
+    <menuitem id="menu_gestion_secciones"
+              name="Secciones"
+              parent="menu_gestion_academica_root"
+              sequence="20"/>
+
+    <menuitem id="menu_gestion_secciones_items"
+              parent="menu_gestion_secciones"
+              action="action_gestion_seccion"/>
+</odoo>

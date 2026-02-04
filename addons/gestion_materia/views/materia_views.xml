@@ -1,0 +1,42 @@
+<odoo>
+    <record id="view_gestion_materia_tree" model="ir.ui.view">
+        <field name= "name">gestion.materia.tree</field>
+        <field name="model">gestion.materia</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="codigo_materia"/>
+                <field name="teacher_id"/>
+                <field name="type"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_gestion_materia_form" model="ir.ui.view">
+        <field name="name">gestion.materia.form</field>
+        <field name="model">gestion.materia</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="codigo_materia"/>
+                        <field name="teacher_id"/>
+                        <field name="type"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gestion_materia" model="ir.actions.act_window">
+        <field name="name">Materias Disponibles</field>
+        <field name="res_model">gestion.materia</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_gestion_materia_root" name="Gestion de Materias"/>
+    <menuitem id="menu_gestion_materia" name="Materias Disponibles" parent="menu_gestion_materia_root" action="action_gestion_materia"/>
+</odoo>
