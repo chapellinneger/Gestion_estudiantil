@@ -1,14 +1,14 @@
 <odoo>
-    <record id="view_gestion_seccion_tree" model="ir.ui.view">
+    <record id="view_gestion_seccion_list" model="ir.ui.view">
         <field name="name">gestion.seccion.tree</field>
         <field name="model">gestion.seccion</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="subject_id"/>
                 <field name="teacher_id"/>
                 <field name="state"/>
-            </tree>
+            </list>
         </field>
     </record>
 
