@@ -10,7 +10,7 @@ class GestionMateria(models.Model):
     teacher_id = fields.Many2one(
         comodel_name="res.partner",
         string="Profesor titular",
-        domain=[("is_company", "=", False)]
+        domain=[("is_teacher", "=", True)]
     )
 
     type = fields.Selection(
