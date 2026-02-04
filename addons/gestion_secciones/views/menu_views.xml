@@ -7,4 +7,11 @@
     <menuitem id="menu_gestion_secciones_items"
               parent="menu_gestion_secciones"
               action="action_gestion_seccion"/>
+
+    <record id="action_gestion_seccion" model="ir.actions.act_window">
+    <field name="name">Secciones</field>
+    <field name="res_model">gestion.seccion</field>
+    <field name="view_mode">tree,form</field>
+        
+</record>
 </odoo>
