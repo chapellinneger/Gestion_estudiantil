@@ -37,6 +37,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_gestion_materia_root" name="Gestion de Materias"/>
+    <menuitem id="menu_gestion_materia_root" name="Gestion de Materias" sequence="10"/>
     <menuitem id="menu_gestion_materia" name="Materias Disponibles" parent="menu_gestion_materia_root" action="action_gestion_materia"/>
 </odoo>
