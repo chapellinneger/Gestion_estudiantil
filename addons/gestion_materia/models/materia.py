@@ -8,7 +8,7 @@ class GestionMateria(models.Model):
     codigo_materia = fields.Char(string="Código de la materia", required=True)
 
     teacher_id = fields.Many2one(
-        comodel_name="res.partner",
+        comodel_name="gestion.teacher",
         string="Profesor titular",
         domain=[("is_teacher", "=", True)]
     )
