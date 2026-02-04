@@ -1,6 +1,6 @@
 {
     "name": "Gestion de secciones",
-    "resumen": "modulo para la gestion de secciones",
+    "summary": "modulo para la gestion de secciones",
     "description": "Este modulo permite gestionar las secciones en un sistema de gestion estudiantil.",
     "version": "18.0.1.0.0",
     "author": "Kaazest",
