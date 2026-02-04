@@ -1,15 +1,15 @@
 <odoo>
     <record id="view_gestion_materia_tree" model="ir.ui.view">
-        <field name= "name">gestion.materia.tree</field>
+        <field name= "name">gestion.materia.list</field>
         <field name="model">gestion.materia</field>
         <field name="arch" type="xml">
-            <tree>
+            <list>
                 <field name="name"/>
                 <field name="codigo_materia"/>
                 <field name="teacher_id"/>
                 <field name="type"/>
                 <field name="active"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -34,7 +34,7 @@
     <record id="action_gestion_materia" model="ir.actions.act_window">
         <field name="name">Materias Disponibles</field>
         <field name="res_model">gestion.materia</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_gestion_materia_root" name="Gestion de Materias" sequence="10"/>
