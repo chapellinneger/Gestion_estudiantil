@@ -11,7 +11,7 @@ class GestionSeccion(models.Model):
     state = fields.Selection(
         [
             ("abierto", "Abierto"),
-            ("en_progreso", "En Progreso"),
+            ("en progreso", "En Progreso"),
             ("finalizado", "Finalizado"),
         ],
         default="abierto",
