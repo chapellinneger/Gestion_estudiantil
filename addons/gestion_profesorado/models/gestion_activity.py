@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class GestionActivity(models.Model):
     _name = 'gestion.activity'
@@ -12,6 +13,12 @@ class GestionActivity(models.Model):
     
     
     submission_ids = fields.One2many('gestion.submission', 'activity_id', string='Entregas')
+
+@api.constrains('name')
+    def checknotemptyfields(self):
+        for record in self:
+            if not record.name or not record.name.strip():
+                raise ValidationError("El título de la actividad no puede estar vacío.")
 
 class GestionSubmission(models.Model):
     _name = 'gestion.submission'
