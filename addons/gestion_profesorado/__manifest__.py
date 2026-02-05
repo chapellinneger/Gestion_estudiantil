@@ -8,11 +8,12 @@
     'website': "https://www.yourcompany.com",
     'category': 'Education',
     'version': '18.0.1.0.0',
-    'depends': ['base'],
+    'depends': ['base', 'website'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
+        'views/activity_views.xml',
     ],
     'demo': [],
     'installable': True,

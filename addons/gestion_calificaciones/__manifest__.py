@@ -10,7 +10,7 @@
     'author': "Kaazest",
     'category': 'Education',
     'version': '0.1',
-    'depends': ['base', 'gestion_estudiantil'],
+    'depends': ['base', 'gestion_estudiantil', 'gestion_profesorado'],
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',

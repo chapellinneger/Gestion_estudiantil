@@ -1,19 +1,17 @@
 {
-    'name': "Gestion de secciones",
-    'summary': "Módulo para la gestión de secciones",
-    'description': """
-        Módulo básico para la gestión de secciones en Odoo 18.
-    """,
-    'author': "Kaazest",
-    'category': 'Education',
-    'version': '18.0.1.0.0',
-    'depends': ['base'],
+    "name": "Gestion de secciones",
+    "summary": "modulo para la gestion de secciones",
+    "description": "Este modulo permite gestionar las secciones en un sistema de gestion estudiantil.",
+    "version": "18.0.1.0.1",
+    "author": "Kaazest",
+    "category": "Education",
+    "depends": ["base", "gestion_materia", "gestion_estudiantil", "gestion_profesorado"],
     "data": [
         "security/ir.model.access.csv",
         "views/gestion_seccion_views.xml",
         "views/menu_views.xml",
     ],
-    'installable': True,
-    'application': True,
-    'license': 'LGPL-3',
+    "installable": True,
+    "application": True,
+    "license": "LGPL-3",
 }
