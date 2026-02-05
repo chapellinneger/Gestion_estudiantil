@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class Student(models.Model):
     _name = 'gestion.student'
@@ -12,6 +13,12 @@ class Student(models.Model):
 
     enrollment_number = fields.Char(string="Número de Matrícula")
     academic_history = fields.Text(string="Historial Académico")
+
+    @api.constrains('student_name')
+    def checkstudent_name(self):
+        for record in self:
+            if not record.studentname or not record.studentname.strip():
+                raise ValidationError("El nombre del estudiante no puede estar vacío.")
     
     @api.model_create_multi
     def create(self, vals_list):
