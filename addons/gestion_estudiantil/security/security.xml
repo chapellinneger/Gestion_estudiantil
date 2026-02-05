@@ -6,6 +6,6 @@
     <record id="group_estudiante" model="res.groups">
         <field name="name">Estudiante</field>
         <field name="category_id" ref="module_category_gestion_estudiantil"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="implied_ids" eval="[(6, 0, [ref('base.group_portal')])]"/>
     </record>
 </odoo>

@@ -1,0 +1,84 @@
+<odoo>
+  <data>
+
+    <!-- Vistas para Grade (Calificaciones) -->
+    <record model="ir.ui.view" id="grade_grade_list">
+      <field name="name">grade.grade.list</field>
+      <field name="model">grade.grade</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="student_name"/>
+          <field name="activity_id"/>
+          <field name="score"/>
+          <field name="teacher_feedback"/>
+        </list>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="grade_grade_form">
+      <field name="name">grade.grade.form</field>
+      <field name="model">grade.grade</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <div class="oe_title">
+                <h1>
+                    <field name="student_name" placeholder="Escribir Nombre del Estudiante"/>
+                </h1>
+            </div>
+            <group>
+                <group>
+                    <field name="activity_id"/>
+                    <field name="score"/>
+                </group>
+                <group>
+                </group>
+            </group>
+            <notebook>
+                <page string="Archivo Entregado" name="file_upload">
+                    <group>
+                        <field name="file" filename="file_name" widget="binary" string="ARCHIVO DEL ESTUDIANTE" readonly="1"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                </page>
+                <page string="Retroalimentación" name="feedback">
+                    <field name="teacher_feedback" placeholder="Escriba sus comentarios aquí..."/>
+                </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="activity_activity_form">
+      <field name="name">activity.activity.form</field>
+      <field name="model">activity.activity</field>
+      <field name="arch" type="xml">
+        <form><sheet><group><field name="name"/></group></sheet></form>
+      </field>
+    </record>
+
+    <!-- Acciones -->
+    <record model="ir.actions.act_window" id="action_grade_grade">
+      <field name="name">Calificaciones</field>
+      <field name="res_model">grade.grade</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_activity_activity">
+      <field name="name">Actividades</field>
+      <field name="res_model">activity.activity</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem name="Gestión Calificaciones" id="menu_gestion_calificaciones_root"/>
+    <menuitem name="Calificaciones" id="menu_grade_grade" parent="menu_gestion_calificaciones_root" action="action_grade_grade" sequence="10"/>
+    
+    <menuitem name="Configuración" id="menu_gestion_calificaciones_config" parent="menu_gestion_calificaciones_root" sequence="100"/>
+    <menuitem name="Actividades" id="menu_activity_activity" parent="menu_gestion_calificaciones_config" action="action_activity_activity"/>
+
+  </data>
+</odoo>
