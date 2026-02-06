@@ -14,7 +14,7 @@ class GestionActivity(models.Model):
     
     submission_ids = fields.One2many('gestion.submission', 'activity_id', string='Entregas')
 
-@api.constrains('name')
+    @api.constrains('name')
     def checknotemptyfields(self):
         for record in self:
             if not record.name or not record.name.strip():

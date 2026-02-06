@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 class GestionSeccion(models.Model):
@@ -18,7 +18,7 @@ class GestionSeccion(models.Model):
         default="abierto",
     )
 
-@api.constrains('name')
+    @api.constrains('name')
     def checknotemptyfields(self):
         for record in self:
             if not record.name or not record.name.strip():
