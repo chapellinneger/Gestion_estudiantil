@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class Grade(models.Model):
     _name = 'grade.grade'
@@ -12,6 +13,13 @@ class Grade(models.Model):
     file_name = fields.Char(string='Nombre del Archivo')
     score = fields.Float(string='Calificación', help='Calificación numérica obtenida.')
     teacher_feedback = fields.Text(string='Comentarios del Profesor', help='Comentarios del profesor sobre el desempeño.')
+
+
+    @api.constrains('student_name')
+    def checknotemptyfields(self):
+        for record in self:
+            if not record.student_name or not record.student_name.strip():
+                raise ValidationError("El nombre del estudiante no puede estar vacío.")
 
     @api.model_create_multi
     def create(self, vals_list):
