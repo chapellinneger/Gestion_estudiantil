@@ -5,7 +5,7 @@
     "version": "18.0.1.0.1",
     "author": "Kaazest",
     "category": "Education",
-    "depends": ["base", "gestion_materia", "gestion_estudiantil", "gestion_profesorado"],
+    "depends": ["base", "gestion_profesorado"],
     "data": [
         "security/ir.model.access.csv",
         "views/gestion_seccion_views.xml",
