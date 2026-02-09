@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="home_estudiante_custom" inherit_id="website.homepage">
+            <xpath expr="//div[@id='wrap']" position="before">
+                <div class="container mt-4" t-if="not user_id._is_public()">
+                    <div class="alert alert-light shadow-sm border-primary">
+                        <h4>¡Hola, <t t-esc="user_id.name"/>! 👋</h4>
+                        <p>Accede rápidamente a tus secciones:</p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="/my/subjects" class="btn btn-outline-primary">Mis Materias</a>
+                            <a href="/my/grades" class="btn btn-outline-primary">Mis Calificaciones</a>
+                            <a href="/my/activities" class="btn btn-outline-primary">Actividades</a>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="portal_my_home_estudiante" inherit_id="portal.portal_my_home" priority="10">
+            <xpath expr="//div[hasclass('o_portal_my_home')]" position="inside">
+                <div class="o_portal_docs list-group mt-3">
+                    <h4 class="mb-3">Panel del Estudiante</h4>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Mis Materias</t>
+                        <t t-set="url" t-value="'/my/subjects'"/>
+                    </t>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Mis Calificaciones</t>
+                        <t t-set="url" t-value="'/my/grades'"/>
+                    </t>
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Tareas y Actividades</t>
+                        <t t-set="url" t-value="'/my/activities'"/>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="portal_my_subjects_template" name="Mis Materias">
+            <t t-call="portal.portal_layout">
+                <div id="wrap" class="container mt-4">
+                    <h3>Mis Materias</h3>
+                    <div class="card shadow-sm border-0">
+                        <table class="table table-hover mb-0 bg-white">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Materia</th>
+                                    <th>Profesor</th>
+                                    <th>Sección</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="materias" t-as="materia">
+                                    <tr>
+                                        <td><strong t-esc="materia.name"/></td>
+                                        <td><t t-esc="materia.profesor_id.name if materia.profesor_id else 'No asignado'"/></td>
+                                        <td><t t-esc="materia.seccion_id.name if materia.seccion_id else 'N/A'"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="portal_my_activities_template" name="Mis Actividades">
+            <t t-call="portal.portal_layout">
+                <div id="wrap" class="container mt-4">
+                    <h3>Tareas y Actividades</h3>
+                    <div class="row mt-3">
+                        <t t-foreach="actividades" t-as="act">
+                            <div class="col-md-6 mb-3">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary" t-esc="act.name"/>
+                                        <p class="card-text text-muted" t-esc="act.description[:100] + '...' if act.description else 'Sin descripción'"/>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="badge bg-info text-white" t-esc="act.state"/>
+                                            <a t-attf-href="/my/activity/#{act.id}" class="btn btn-sm btn-primary">Ver / Editar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="portal_my_grades_template" name="Mis Notas">
+            <t t-call="portal.portal_layout">
+                <div id="wrap" class="container mt-4">
+                    <h3>Historial de Notas</h3>
+                    <div class="list-group mt-3">
+                        <t t-foreach="notas" t-as="nota">
+                            <div class="list-group-item d-flex justify-content-between align-items-center border-0 shadow-sm mb-2 bg-white rounded">
+                                <div>
+                                    <h6 class="mb-0" t-esc="nota.materia_id.name"/>
+                                    <small class="text-muted" t-esc="nota.periodo_id.name if nota.periodo_id else 'Periodo Actual'"/>
+                                </div>
+                                <span t-attf-class="badge rounded-pill p-2 #{'bg-danger' if nota.valor &lt; 10 else 'bg-success'}" style="min-width: 40px;">
+                                    <t t-esc="nota.valor"/>
+                                </span>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>
