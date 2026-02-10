@@ -10,9 +10,10 @@
     'version': '18.0.1.0.0',
     'depends': ['base', 'gestion_profesorado'],
     'data': [
-       'security/security.xml',
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
+        'views/asistencia_view.xml',  # mi  archivo XML
     ],
     'installable': True,
     'application': True,
