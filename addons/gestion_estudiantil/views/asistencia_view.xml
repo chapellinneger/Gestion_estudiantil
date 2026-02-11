@@ -6,7 +6,7 @@
             <list string="Asistencias">
                 <field name="date"/>
                 <field name="section_id"/>
-                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="confirmed"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
             </list>
         </field>
     </record>
