@@ -1,38 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
-        <template id="home_estudiante_custom" inherit_id="website.homepage">
-            <xpath expr="//div[@id='wrap']" position="before">
-                <div class="container mt-4" t-if="not user_id._is_public()">
-                    <div class="alert alert-light shadow-sm border-primary">
-                        <h4>¡Hola, <t t-esc="user_id.name"/>! 👋</h4>
-                        <p>Accede rápidamente a tus secciones:</p>
-                        <div class="d-flex flex-wrap gap-2">
-                            <a href="/my/subjects" class="btn btn-outline-primary">Mis Materias</a>
-                            <a href="/my/grades" class="btn btn-outline-primary">Mis Calificaciones</a>
-                            <a href="/my/activities" class="btn btn-outline-primary">Actividades</a>
-                        </div>
-                    </div>
-                </div>
-            </xpath>
-        </template>
-
-        <template id="portal_my_home_estudiante" inherit_id="portal.portal_my_home" priority="10">
-            <xpath expr="//div[hasclass('o_portal_my_home')]" position="inside">
-                <div class="o_portal_docs list-group mt-3">
-                    <h4 class="mb-3">Panel del Estudiante</h4>
+        <template id="portal_my_home_estudiantil_cards" inherit_id="portal.portal_my_home" priority="20">
+            <xpath expr="//div[@id='portal_common_category']" position="after">
+                <h3 class="my-3">Gestión Estudiantil</h3>
+                <div class="o_portal_category row g-2 mt-3 mb-4">
+                    
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Mis Materias</t>
+                        <t t-set="title">Materias</t>
                         <t t-set="url" t-value="'/my/subjects'"/>
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/> 
+                        <t t-set="config_card" t-value="True"/>
                     </t>
+
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Mis Calificaciones</t>
+                        <t t-set="title">Notas</t>
                         <t t-set="url" t-value="'/my/grades'"/>
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
+                        <t t-set="config_card" t-value="True"/>
                     </t>
+
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Tareas y Actividades</t>
+                        <t t-set="title">Actividades</t>
                         <t t-set="url" t-value="'/my/activities'"/>
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
+                        <t t-set="config_card" t-value="True"/>
+                    </t>
+
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Ausencias</t>
+                        <t t-set="url" t-value="'/my/absences'"/>
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
+                        <t t-set="config_card" t-value="True"/>
+                    </t>
+
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Secciones</t>
+                        <t t-set="url" t-value="'/my/sections'"/>
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
+                        <t t-set="config_card" t-value="True"/>
+                    </t>
+
+                    <t t-call="portal.portal_docs_entry">
+                        <t t-set="title">Profesores</t>
+                        <t t-set="url" t-value="'/my/teachers'"/>
+                        <t t-set="icon" t-value="'/portal/static/src/img/portal-addresses.svg'"/>
+                        <t t-set="config_card" t-value="True"/>
                     </t>
                 </div>
             </xpath>
@@ -42,8 +55,8 @@
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
                     <h3>Mis Materias</h3>
-                    <div class="card shadow-sm border-0">
-                        <table class="table table-hover mb-0 bg-white">
+                    <div class="card shadow-sm border-0 bg-white p-3">
+                        <table class="table table-hover mb-0">
                             <thead class="table-primary">
                                 <tr>
                                     <th>Materia</th>
@@ -110,6 +123,5 @@
                 </div>
             </t>
         </template>
-
     </data>
 </odoo>
