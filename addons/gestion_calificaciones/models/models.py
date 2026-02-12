@@ -33,6 +33,19 @@ class Grade(models.Model):
     score = fields.Float(string='Calificación')
     teacher_feedback = fields.Text(string='Comentarios del Profesor')
 
+    @api.constrains('student_id', 'activity_id')
+    def _check_unique_grade(self):
+        for record in self:
+            existing = self.search([
+                ('student_id', '=', record.student_id.id),
+                ('activity_id', '=', record.activity_id.id),
+                ('id', '!=', record.id)
+            ])
+            if existing:
+                raise ValidationError(
+                    f"El estudiante {record.student_id.name} ya tiene una calificación registrada para la actividad '{record.activity_id.name}'."
+                )
+
     @api.model_create_multi
     def create(self, vals_list):
         records = super(Grade, self).create(vals_list)
