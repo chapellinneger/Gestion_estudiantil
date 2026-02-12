@@ -1,0 +1,16 @@
+<odoo>
+    <record id="action_gestion_seccion" model="ir.actions.act_window">
+        <field name="name">Secciones</field>
+        <field name="res_model">gestion.seccion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_gestion_secciones"
+              name="Secciones"
+              parent="gestion_estudiantil.menu_estudiantil_root"
+              sequence="20"/>
+
+    <menuitem id="menu_gestion_secciones_items"
+              parent="menu_gestion_secciones"
+              action="action_gestion_seccion"/>
+</odoo>

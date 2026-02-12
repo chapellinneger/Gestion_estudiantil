@@ -12,6 +12,11 @@ class Student(models.Model):
 
     enrollment_number = fields.Char(string="Número de Matrícula")
     academic_history = fields.Text(string="Historial Académico")
+
+    # --- CAMPOS NUEVOS PARA COMPATIBILIDAD CON CALIFICACIONES ---
+    value = fields.Integer(string="Último Valor de Nota") # O Float si prefieres
+    description = fields.Text(string="Descripción de la Nota")
+    # ----------------------------------------------------------
     
     @api.model_create_multi
     def create(self, vals_list):

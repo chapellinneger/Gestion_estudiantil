@@ -1,5 +1,17 @@
 from odoo import models, fields, api
 
+#EXTENSIÓN DE RES.PARTNER
+# Necesaria para que el módulo de Secciones pueda filtrar profesores
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    is_teacher = fields.Boolean(
+        string="Es Profesor", 
+        default=False,
+        help="Flag técnico para que el módulo de secciones reconozca a este contacto como profesor."
+    )
+
 class Teacher(models.Model):
     _name = 'gestion.teacher'
     _description = 'Teacher'
@@ -8,13 +20,6 @@ class Teacher(models.Model):
     partner_id = fields.Many2one('res.partner', required=True, ondelete='cascade')
     user_id = fields.Many2one('res.users', string='Related User')
 
-    # Campos de la tabla técnica
-    is_teacher = fields.Boolean(
-        string="Es Profesor", 
-        default=True,
-        help="Flag para identificar profesores."
-    )
-    
     # Cambiamos el string a uno genérico para que no diga "Docente" por defecto
     signature = fields.Binary(
         string="Firma Digital",
