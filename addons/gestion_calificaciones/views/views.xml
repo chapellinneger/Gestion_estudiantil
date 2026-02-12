@@ -94,6 +94,12 @@
               action="action_grade_grade"
               sequence="10"/>
 
+    <menuitem name="Historial de Calificaciones"
+              id="menu_student_grade"
+              parent="menu_gestion_calificaciones_root"
+              action="action_student_grade"
+              sequence="20"/>
+
     <menuitem name="Configuración"
               id="menu_gestion_calificaciones_config"
               parent="menu_gestion_calificaciones_root"
