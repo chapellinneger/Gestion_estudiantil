@@ -3,7 +3,7 @@
 
     <!-- LIST VIEW DEL HISTORIAL -->
     <record id="view_student_grade_list" model="ir.ui.view">
-      <field name="name">gestion.student.grade.tree</field>
+      <field name="name">gestion.student.grade.list</field>
       <field name="model">gestion.student.grade</field>
       <field name="arch" type="xml">
         <list>
