@@ -4,5 +4,5 @@ access_gestion_teacher_admin,gestion.teacher.access.admin,model_gestion_teacher,
 access_gestion_teacher_student,gestion.teacher.student,model_gestion_teacher,group_estudiante,1,0,0,0
 access_gestion_activity_profesor,gestion.activity.profesor,model_gestion_activity,gestion_profesorado.group_profesor,1,1,1,1
 access_gestion_activity_student,gestion.activity.student,model_gestion_activity,gestion_profesorado.group_estudiante,1,0,0,0
-access_gestion_submission_profesor,gestion.submission.profesor,model_gestion_submission,gestion_profesorado.group_profesor,1,1,0,1
+access_gestion_submission_profesor,gestion.submission.profesor,model_gestion_submission,gestion_profesorado.group_profesor,1,1,1,1
 access_gestion_submission_student,gestion.submission.student,model_gestion_submission,gestion_profesorado.group_estudiante,1,1,1,1
