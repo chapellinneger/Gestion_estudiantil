@@ -11,3 +11,4 @@ access_gestion_activity_estudiante,gestion.activity.estudiante,gestion_profesora
 access_gestion_teacher_estudiante,gestion.teacher.estudiante,gestion_profesorado.model_gestion_teacher,gestion_estudiantil.group_estudiante,1,0,0,0
 access_gestion_materia_estudiante,gestion.materia.estudiante,gestion_materia.model_gestion_materia,gestion_estudiantil.group_estudiante,1,0,0,0
 access_gestion_submission_student,gestion.submission.student,gestion_profesorado.model_gestion_submission,gestion_estudiantil.group_estudiante,1,1,1,1
+access_gestion_student_user,gestion.student.user,model_gestion_student,base.group_user,1,0,0,0

@@ -2,7 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 class Activity(models.Model):
-    _name = 'activity.activity'
+    _name = 'gestion.activity'
     _description = 'Actividad'
 
     name = fields.Char(string='Nombre de la Actividad', required=True)
@@ -30,9 +30,15 @@ class Grade(models.Model):
     activity_id = fields.Many2one('gestion.activity', string='Actividad', required=True)
     file = fields.Binary(string='Archivo Entregado')
     file_name = fields.Char(string='Nombre del Archivo')
-    score = fields.Float(string='Calificación')
-    teacher_feedback = fields.Text(string='Comentarios del Profesor')
+    
+    score = fields.Float(string='Calificación', help='Calificación numérica obtenida.')
+    teacher_feedback = fields.Text(string='Comentarios del Profesor', help='Comentarios del profesor sobre el desempeño.')
+    
+    # Fields from Luz_rama
+    date = fields.Date(string="Fecha", default=fields.Date.context_today)
+    description = fields.Text(string='Descripción de la Nota')
 
+    # Logic from develop (Unique Constraints)
     @api.constrains('student_id', 'activity_id')
     def _check_unique_grade(self):
         for record in self:
@@ -46,11 +52,12 @@ class Grade(models.Model):
                     f"El estudiante {record.student_id.name} ya tiene una calificación registrada para la actividad '{record.activity_id.name}'."
                 )
 
+    # Logic from develop (History Tracking)
     @api.model_create_multi
     def create(self, vals_list):
         records = super(Grade, self).create(vals_list)
         for record in records:
-            self.env['gestion.student.grade'].create({
+            self.env['gestion.student.grade'].sudo().create({
                 'student_id': record.student_id.id,
                 'activity_id': record.activity_id.id,
                 'score': record.score,
@@ -62,7 +69,7 @@ class Grade(models.Model):
         res = super(Grade, self).write(vals)
         if 'score' in vals or 'activity_id' in vals:
             for record in self:
-                self.env['gestion.student.grade'].create({
+                self.env['gestion.student.grade'].sudo().create({
                     'student_id': record.student_id.id,
                     'activity_id': record.activity_id.id,
                     'score': record.score,

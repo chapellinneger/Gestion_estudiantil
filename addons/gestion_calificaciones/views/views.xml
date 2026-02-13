@@ -8,6 +8,7 @@
       <field name="arch" type="xml">
         <list>
           <field name="student_id"/>
+          <field name="teacher_id"/>
           <field name="activity_id"/>
           <field name="score"/>
           <field name="teacher_feedback"/>
@@ -24,9 +25,9 @@
           <sheet>
 
             <div class="oe_title">
-              <h1>
-                <field name="student_id"/>
-              </h1>
+                <h1>
+                    <field name="student_id" placeholder="Escribir Nombre del Estudiante"/>
+                </h1>
             </div>
 
             <group>
