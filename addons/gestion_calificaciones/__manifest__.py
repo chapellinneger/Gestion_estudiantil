@@ -13,6 +13,7 @@
     'depends': ['base', 'gestion_estudiantil', 'gestion_materia'],
     'data': [
         'security/ir.model.access.csv',
+        'views/student_grade_views.xml',
         'views/views.xml',
     ],
 }

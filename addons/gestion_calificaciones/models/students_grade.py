@@ -1,6 +1,6 @@
 from odoo import models, fields
 
-class StudentGrade(models.Model);
+class StudentGrade(models.Model):
     _name = 'gestion.student.grade'
     _description = 'Historial de Calificaciones'
 
