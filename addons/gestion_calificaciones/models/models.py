@@ -2,10 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 class Activity(models.Model):
-    _name = 'gestion.activity'
-    _description = 'Actividad'
-
-    name = fields.Char(string='Nombre de la Actividad', required=True)
+    _inherit = 'gestion.activity'
     
     @api.constrains('name')
     def checkname(self):
