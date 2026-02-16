@@ -31,6 +31,21 @@ class GestionAttendance(models.Model):
         for record in self:
             record.state = 'confirmed'
 
+    @api.onchange('section_id')
+    def _onchange_section_id(self):
+        """Carga automáticamente los estudiantes de la sección seleccionada."""
+        if self.section_id and self.section_id.student_ids:
+            # Limpiar líneas existentes para evitar duplicados si se cambia de sección
+            self.attendance_line_ids = [(5, 0, 0)]
+            
+            lines = []
+            for student_partner in self.section_id.student_ids:
+                lines.append((0, 0, {
+                    'student_id': student_partner.id,
+                    'present': True
+                }))
+            self.attendance_line_ids = lines       
+
 class GestionAttendanceLine(models.Model):
     _name = 'gestion.attendance_line'
     _description = 'Línea de Asistencia'
@@ -38,3 +53,6 @@ class GestionAttendanceLine(models.Model):
     attendance_id = fields.Many2one('gestion.attendance', string="Registro de Asistencia", ondelete='cascade')
     student_id = fields.Many2one('res.partner', string="Estudiante", required=True) 
     present = fields.Boolean(string="Presente", default=True)
+
+
+    
