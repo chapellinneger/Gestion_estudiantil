@@ -7,51 +7,62 @@
                 <div class="o_portal_category row g-2 mt-3 mb-4">
                     
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Materias</t>
+                        <t t-set="title">
+                            <img src="/gestion_estudiantil/static/src/img/subject.svg" class="me-2" style="width: 20px; height: 20px; vertical-align: middle;"/>
+                            Materias
+                        </t>
                         <t t-set="url" t-value="'/my/subjects'"/>
-                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/> 
                         <t t-set="config_card" t-value="True"/>
                     </t>
 
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Notas</t>
+                        <t t-set="title">
+                            <img src="/gestion_estudiantil/static/src/img/grade.svg" class="me-2" style="width: 20px; height: 20px; vertical-align: middle;"/>
+                            Notas
+                        </t>
                         <t t-set="url" t-value="'/my/grades'"/>
-                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
                         <t t-set="config_card" t-value="True"/>
                     </t>
 
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Actividades</t>
+                        <t t-set="title">
+                            <img src="/gestion_estudiantil/static/src/img/activity.svg" class="me-2" style="width: 20px; height: 20px; vertical-align: middle;"/>
+                            Actividades
+                        </t>
                         <t t-set="url" t-value="'/my/activities'"/>
-                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
                         <t t-set="config_card" t-value="True"/>
                     </t>
 
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Ausencias</t>
+                        <t t-set="title">
+                            <img src="/gestion_estudiantil/static/src/img/absence.svg" class="me-2" style="width: 20px; height: 20px; vertical-align: middle;"/>
+                            Ausencias
+                        </t>
                         <t t-set="url" t-value="'/my/absences'"/>
-                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
                         <t t-set="config_card" t-value="True"/>
                     </t>
 
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Secciones</t>
+                        <t t-set="title">
+                            <img src="/gestion_estudiantil/static/src/img/section.svg" class="me-2" style="width: 20px; height: 20px; vertical-align: middle;"/>
+                            Secciones
+                        </t>
                         <t t-set="url" t-value="'/my/sections'"/>
-                        <t t-set="icon" t-value="'/portal/static/src/img/portal-connection.svg'"/>
                         <t t-set="config_card" t-value="True"/>
                     </t>
 
                     <t t-call="portal.portal_docs_entry">
-                        <t t-set="title">Profesores</t>
+                        <t t-set="title">
+                            <img src="/portal/static/src/img/portal-addresses.svg" class="me-2" style="width: 20px; height: 20px; vertical-align: middle;"/>
+                            Profesores
+                        </t>
                         <t t-set="url" t-value="'/my/teachers'"/>
-                        <t t-set="icon" t-value="'/portal/static/src/img/portal-addresses.svg'"/>
                         <t t-set="config_card" t-value="True"/>
                     </t>
                 </div>
             </xpath>
         </template>
 
-        <!-- 1. MATERIAS (Desde Secciones) -->
         <template id="portal_my_subjects_template" name="Mis Materias">
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
@@ -82,7 +93,6 @@
             </t>
         </template>
 
-        <!-- 2. ACTIVIDADES (gestion.activity) -->
         <template id="portal_my_activities_template" name="Mis Actividades">
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
@@ -102,7 +112,6 @@
                                         <small class="text-danger" t-if="act.date_deadline">
                                             Entrega: <span t-field="act.date_deadline"/>
                                         </small>
-                                        <!-- Botón ficticio por ahora -->
                                         <div class="mt-3">
                                             <a t-attf-href="#" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
                                         </div>
@@ -115,7 +124,6 @@
             </t>
         </template>
 
-        <!-- 3. NOTAS (grade.grade) -->
         <template id="portal_my_grades_template" name="Mis Notas">
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
@@ -143,7 +151,6 @@
             </t>
         </template>
 
-        <!-- 4. AUSENCIAS (gestion.attendance_line) -->
         <template id="portal_my_absences_template" name="Mis Ausencias">
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
@@ -175,7 +182,6 @@
             </t>
         </template>
 
-        <!-- 5. SECCIONES (gestion.seccion) -->
         <template id="portal_my_sections_template" name="Mis Secciones">
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
@@ -200,7 +206,6 @@
             </t>
         </template>
 
-        <!-- 6. PROFESORES (gestion.teacher) -->
         <template id="portal_my_teachers_template" name="Mis Profesores">
             <t t-call="portal.portal_layout">
                 <div id="wrap" class="container mt-4">
@@ -211,7 +216,6 @@
                                 <div class="card h-100 text-center shadow-sm p-3">
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <!-- Placeholder avatar or image if available -->
                                             <img t-if="teacher.image_1920" t-att-src="image_data_uri(teacher.image_1920)" class="rounded-circle img-fluid" style="width: 100px; height: 100px; object-fit: cover;"/>
                                             <img t-else="" src="/base/static/img/avatar.png" class="rounded-circle img-fluid" style="width: 100px; height: 100px;"/>
                                         </div>
