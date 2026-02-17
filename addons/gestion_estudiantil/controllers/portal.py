@@ -42,7 +42,7 @@ class EstudiantePortal(CustomerPortal):
         
         # Usamos .sudo() por si el modelo grade.grade tiene restricciones de lectura
         notas = request.env['grade.grade'].sudo().search([
-            ('student_name', 'ilike', user_name)
+            ('student_id.name', 'ilike', user_name)
         ])
         
         return request.render("gestion_estudiantil.portal_my_grades_template", {

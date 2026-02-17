@@ -30,6 +30,7 @@ class Teacher(models.Model):
     def create(self, vals_list):
         records = super(Teacher, self).create(vals_list)
         for record in records:
+            record.partner_id.is_teacher = True # Force is_teacher flag
             if not record.user_id and record.email:
                 # Create user automatically
                 user_vals = {
