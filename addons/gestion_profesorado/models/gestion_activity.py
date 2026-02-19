@@ -34,3 +34,33 @@ class GestionSubmission(models.Model):
     submission_date = fields.Date(string='Fecha de Envío', default=fields.Date.today)
     score = fields.Float(string='Calificación')
     notes = fields.Text(string='Observaciones del Profesor')
+
+    @api.model
+    def create(self, vals):
+        submission = super(GestionSubmission, self).create(vals)
+        
+        submission._notify_teacher_submission()
+        
+        return submission
+
+    def _notify_teacher_submission(self):
+   
+        teacher = self.activity_id.teacher_id        
+        if teacher and teacher.partner_id:                        
+            subject = f"Nueva Entrega: {self.activity_id.name}"
+            body = (
+                f"El estudiante <b>{self.student_id.name}</b> ha subido una nueva entrega "
+                f"para la actividad '<i>{self.activity_id.name}</i>'.<br/>"
+                f"Fecha: {self.submission_date}"
+            )
+           
+            teacher.partner_id.message_notify(
+                partner_ids=[teacher.partner_id.id],  
+                body=body,                           
+                subject=subject,                     
+                record_name=self.activity_id.name,    
+                model=self._name,                     
+                res_id=self.id,                       
+                message_type='notification',          
+                subtype_xmlid='mail.mt_comment',      
+            )
