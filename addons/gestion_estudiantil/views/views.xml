@@ -54,4 +54,13 @@
 
     <menuitem id="menu_estudiantil_root" name="Gestión Estudiantil" sequence="1"/>
     <menuitem id="menu_estudiantes_main" name="Estudiantes" parent="menu_estudiantil_root" action="action_estudiantes_final"/>
+
+    <menuitem id="menu_gestion_secciones"
+              name="Secciones"
+              parent="menu_estudiantil_root"
+              sequence="20"/>
+
+    <menuitem id="menu_gestion_secciones_items"
+              parent="menu_gestion_secciones"
+              action="gestion_secciones.action_gestion_seccion"/>
 </odoo>
