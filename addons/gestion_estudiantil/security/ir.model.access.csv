@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gestion_student,gestion.student.access,model_gestion_student,gestion_estudiantil.group_estudiante,1,1,1,1
+access_gestion_student_admin,gestion.student.access.admin,model_gestion_student,base.group_system,1,1,1,1
+access_gestion_attendance_estudiante,asistencia.estudiante,model_gestion_attendance,gestion_estudiantil.group_estudiante,1,0,0,0
+access_attendance_line_estudiante,asistencia.linea.estudiante,model_gestion_attendance_line,gestion_estudiantil.group_estudiante,1,0,0,0
+access_gestion_attendance_admin,asistencia.admin,model_gestion_attendance,base.group_system,1,1,1,1
+access_attendance_line_admin,asistencia.linea.admin,model_gestion_attendance_line,base.group_system,1,1,1,1
+access_gestion_seccion_estudiante,gestion.seccion.estudiante,gestion_secciones.model_gestion_seccion,gestion_estudiantil.group_estudiante,1,0,0,0
+access_gestion_activity_estudiante,gestion.activity.estudiante,gestion_profesorado.model_gestion_activity,gestion_estudiantil.group_estudiante,1,0,0,0
+access_gestion_teacher_estudiante,gestion.teacher.estudiante,gestion_profesorado.model_gestion_teacher,gestion_estudiantil.group_estudiante,1,0,0,0
+access_gestion_submission_student,gestion.submission.student,gestion_profesorado.model_gestion_submission,gestion_estudiantil.group_estudiante,1,1,1,1
+access_gestion_student_user,gestion.student.user,model_gestion_student,base.group_user,1,0,0,0
