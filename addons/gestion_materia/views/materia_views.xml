@@ -37,5 +37,5 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_gestion_materia" name="Materias Disponibles" parent="gestion_estudiantil.menu_estudiantil_root" action="action_gestion_materia" sequence="11"/>
+    <menuitem id="menu_gestion_materia" name="Materias Disponibles" parent="gestion_profesorado.menu_root" sequence="20"/>
 </odoo>

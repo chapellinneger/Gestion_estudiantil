@@ -58,11 +58,8 @@
     <menuitem id="menu_gestion_secciones"
               name="Secciones"
               parent="menu_estudiantil_root"
+              action="gestion_secciones.action_gestion_seccion"
               sequence="20"/>
-
-    <menuitem id="menu_gestion_secciones_items"
-              parent="menu_gestion_secciones"
-              action="gestion_secciones.action_gestion_seccion"/>
 
     <record id="view_gestion_activity_form_inherit" model="ir.ui.view">
         <field name="name">gestion.activity.form.inherit</field>
