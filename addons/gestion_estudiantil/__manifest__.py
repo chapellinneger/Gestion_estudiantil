@@ -8,7 +8,7 @@
     'website': "https://www.yourcompany.com",
     'category': 'Education',
     'version': '18.0.1.0.0',
-    'depends': ['base', 'gestion_profesorado', 'portal', 'website',  'gestion_secciones' ],
+    'depends': ['base', 'gestion_profesorado', 'portal', 'website',  'gestion_secciones', 'gestion_materia'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
