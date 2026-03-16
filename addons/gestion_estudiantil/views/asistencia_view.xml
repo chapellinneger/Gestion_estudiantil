@@ -24,7 +24,7 @@
                 <group>
                     <group>
                         <field name="date"/>
-                        <field name="subject_id"/>
+                        <field name="subject_id" domain="[('teacher_id.user_ids', '=', uid)]"/>
                         
                         <field name="section_id" 
                                domain="[('subject_id', '=', subject_id), ('teacher_id.user_ids', '=', uid)]" 
