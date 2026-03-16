@@ -32,10 +32,10 @@
     </record>
 
     <record id="action_gestion_materia" model="ir.actions.act_window">
-        <field name="name">Materias Disponibles</field>
+        <field name="name">Materias</field>
         <field name="res_model">gestion.materia</field>
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_gestion_materia" name="Materias Disponibles" parent="gestion_profesorado.menu_root" sequence="20"/>
+    <menuitem id="menu_gestion_materia" name="Materias" parent="gestion_profesorado.menu_root" sequence="20"/>
 </odoo>
