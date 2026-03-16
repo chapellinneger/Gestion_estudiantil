@@ -60,12 +60,7 @@
         <menuitem id="menu_gestion_activity_submenu" 
                   name="Actividades" 
                   parent="gestion_profesorado.menu_root" 
-                  sequence="20"/>
-
-        <menuitem id="menu_gestion_activity_final" 
-                  name="Listado de Tareas" 
-                  parent="menu_gestion_activity_submenu" 
                   action="action_gestion_activity"
-                  sequence="10"/>
+                  sequence="20"/>
     </data>
 </odoo>

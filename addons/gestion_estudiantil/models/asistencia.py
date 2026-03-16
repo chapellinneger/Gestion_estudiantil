@@ -42,7 +42,7 @@ class GestionAttendance(models.Model):
             for student_partner in self.section_id.student_ids:
                 lines.append((0, 0, {
                     'student_id': student_partner.id,
-                    'present': True
+                    'present': False
                 }))
             self.attendance_line_ids = lines       
 
