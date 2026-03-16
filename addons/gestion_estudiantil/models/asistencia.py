@@ -7,6 +7,12 @@ class GestionAttendance(models.Model):
 
     date = fields.Date(string="Fecha", default=fields.Date.today, required=True)
     
+    subject_id = fields.Many2one(
+        'gestion.materia', 
+        string="Materia", 
+        required=True
+    )
+
     section_id = fields.Many2one(
         'gestion.seccion', 
         string="Sección", 
@@ -16,13 +22,6 @@ class GestionAttendance(models.Model):
     teacher_id = fields.Many2one(
         related='section_id.teacher_id', 
         string="Profesor Responsable", 
-        readonly=True, 
-        store=True
-    )
-    
-    subject_id = fields.Many2one(
-        related='section_id.subject_id', 
-        string="Materia", 
         readonly=True, 
         store=True
     )
@@ -50,6 +49,12 @@ class GestionAttendance(models.Model):
         for record in self:
             record.state = 'confirmed'
 
+    @api.onchange('subject_id')
+    def _onchange_subject_id(self):
+        """Si el profesor cambia la materia, limpiamos la sección y la lista de estudiantes para evitar errores."""
+        self.section_id = False
+        self.attendance_line_ids = [(5, 0, 0)]    
+
     @api.onchange('section_id')
     def _onchange_section_id(self):
         """Carga automáticamente los estudiantes de la sección seleccionada."""
@@ -63,7 +68,9 @@ class GestionAttendance(models.Model):
                     'student_id': student_partner.id,
                     'present': False
                 }))
-            self.attendance_line_ids = lines       
+            self.attendance_line_ids = lines    
+    
+       
 
 class GestionAttendanceLine(models.Model):
     _name = 'gestion.attendance_line'
