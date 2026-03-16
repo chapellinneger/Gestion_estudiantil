@@ -7,7 +7,28 @@ class GestionAttendance(models.Model):
 
     date = fields.Date(string="Fecha", default=fields.Date.today, required=True)
     # Cambia 'gestion.seccion' por el nombre técnico REAL del modelo de secciones
-    section_id = fields.Many2one('gestion.seccion', string="Sección", required=True) 
+    
+    section_id = fields.Many2one(
+        'gestion.seccion', 
+        string="Sección", 
+        required=True
+    ) 
+    
+    # Le cambiamos el nombre a profesor_id para evadir el error de la base de datos
+    teacher_id = fields.Many2one(
+        related='section_id.teacher_id', 
+        string="Profesor Responsable", 
+        readonly=True, 
+        store=True
+    )
+    
+    subject_id = fields.Many2one(
+        related='section_id.subject_id', 
+        string="Materia", 
+        readonly=True, 
+        store=True
+    )
+
     state = fields.Selection([
         ('draft', 'Borrador'),
         ('confirmed', 'Confirmado')
