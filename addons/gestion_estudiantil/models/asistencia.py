@@ -6,7 +6,6 @@ class GestionAttendance(models.Model):
     _description = 'Registro de Asistencia'
 
     date = fields.Date(string="Fecha", default=fields.Date.today, required=True)
-    # Cambia 'gestion.seccion' por el nombre técnico REAL del modelo de secciones
     
     section_id = fields.Many2one(
         'gestion.seccion', 
@@ -14,7 +13,6 @@ class GestionAttendance(models.Model):
         required=True
     ) 
     
-    # Le cambiamos el nombre a profesor_id para evadir el error de la base de datos
     teacher_id = fields.Many2one(
         related='section_id.teacher_id', 
         string="Profesor Responsable", 
