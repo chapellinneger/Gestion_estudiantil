@@ -31,7 +31,12 @@ class Student(models.Model):
                     'name': record.name,
                     'login': login,
                     'partner_id': record.partner_id.id,
-                    'groups_id': [(4, self.env.ref('gestion_estudiantil.group_estudiante').id)],
+                    'groups_id': [
+                        (6, 0, [
+                            self.env.ref('base.group_portal').id,
+                            self.env.ref('gestion_estudiantil.group_estudiante').id
+                        ])
+                    ],
                 }
                 user = self.env['res.users'].create(user_vals)
                 record.user_id = user
