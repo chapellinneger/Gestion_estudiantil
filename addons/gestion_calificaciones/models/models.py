@@ -25,11 +25,17 @@ class Grade(models.Model):
 
     teacher_id = fields.Many2one('gestion.teacher', string='Docente')
     activity_id = fields.Many2one('gestion.activity', string='Actividad', required=True)
+
+# Estos campos no tiene utilidad, las tareas se registran y del modulo de profesorado
+#-------------------------------------------------------------------------------
     file = fields.Binary(string='Archivo Entregado')
     file_name = fields.Char(string='Nombre del Archivo')
-    
+#------------------------------------------------------------------------------
+
     score = fields.Float(string='Calificación', help='Calificación numérica obtenida.')
     teacher_feedback = fields.Text(string='Comentarios del Profesor', help='Comentarios del profesor sobre el desempeño.')
+
+
     
     # Fields from Luz_rama
     date = fields.Date(string="Fecha", default=fields.Date.context_today)
@@ -73,8 +79,6 @@ class Grade(models.Model):
                     'description': f'Actualización de nota para {record.student_id.name}'
                 })
         return res
-    
-    from odoo import models, fields, api
 
 class GestionSubmissionInherit(models.Model):
     # Heredamos el modelo del módulo de profesorado

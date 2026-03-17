@@ -25,7 +25,8 @@ class GestionSubmission(models.Model):
     _description = 'Entrega de Alumno'
 
     activity_id = fields.Many2one('gestion.activity', string='Tarea', required=True)
-    student_id = fields.Many2one('res.partner', string='Estudiante', required=True)
+    student_id = fields.Many2one('res.partner', string='Estudiante', required=True) ## Revisar pq está res.partner y no gestion.student
+    
     
     
     file_data = fields.Binary(string='Archivo de Tarea')

@@ -16,7 +16,7 @@ class StudentGrade(models.Model):
         string='Actividad',
         required=True
     )
-
+       
     score = fields.Float(string='Calificación', required=True)
     description = fields.Text(string='Descripción')
     date = fields.Datetime(string='Fecha', default=fields.Datetime.now)
