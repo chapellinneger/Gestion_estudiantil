@@ -113,7 +113,7 @@
                                             Entrega: <span t-field="act.date_deadline"/>
                                         </small>
                                         <div class="mt-3">
-                                            <a t-attf-href="#" class="btn btn-sm btn-outline-primary">Ver Detalles</a>
+                                            <a t-attf-href="/my/activities/#{act.id}" class="btn btn-sm btn-outline-primary">Ver Detalles / Entregar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -231,5 +231,50 @@
             </t>
         </template>
 
+        <template id="portal_actividad_page" name="Entregar Actividad">
+            <t t-call="portal.portal_layout">
+                <div id="wrap" class="container mt-4">
+                    
+                    <div class="mb-3">
+                        <a href="/my/activities" class="btn btn-sm btn-secondary">
+                            <i class="fa fa-arrow-left"/> Volver a mis actividades
+                        </a>
+                    </div>
+
+                    <h3><t t-esc="activity.name"/></h3>
+                    
+                    <div class="card shadow-sm border-0 bg-white p-4 mt-3">
+                        <h5 class="text-primary">Instrucciones del Profesor:</h5>
+                        <div t-raw="activity.description" class="mb-4 text-muted mt-2"/>
+                        
+                        <p class="text-danger" t-if="activity.date_deadline">
+                            <strong><i class="fa fa-calendar"/> Fecha límite de entrega: </strong> 
+                            <span t-field="activity.date_deadline"/>
+                        </p>
+
+                        <hr/>
+
+                        <div t-if="request.params.get('success')" class="alert alert-success">
+                            <i class="fa fa-check-circle"/> ¡Tu archivo ha sido enviado correctamente! El profesor ya ha sido notificado.
+                        </div>
+
+                        <h5 class="mb-3 mt-2">Subir mi entrega</h5>
+                        <form action="/gestion/actividad/subir" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <input type="hidden" name="activity_id" t-att-value="activity.id"/>
+                            
+                            <div class="mb-3">
+                                <label for="archivo_tarea" class="form-label text-muted">Selecciona tu archivo (PDF, Word, Excel, etc.):</label>
+                                <input type="file" name="archivo_tarea" id="archivo_tarea" class="form-control" required="1"/>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-upload"/> Enviar Tarea
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </t>
+        </template>
     </data>
 </odoo>

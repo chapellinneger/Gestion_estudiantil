@@ -59,8 +59,4 @@ class GestionSubmission(models.Model):
                 body=body,                           
                 subject=subject,                     
                 record_name=self.activity_id.name,    
-                model=self._name,                     
-                res_id=self.id,                       
-                message_type='notification',          
-                subtype_xmlid='mail.mt_comment',      
             )

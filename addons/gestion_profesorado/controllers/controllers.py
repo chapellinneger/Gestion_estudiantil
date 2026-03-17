@@ -26,7 +26,7 @@ class GestionProfesorado(http.Controller):
     
     @http.route('/gestion/actividad/<model("gestion.activity"):activity>', type='http', auth="user", website=True)
     def actividad_detalle(self, activity, **kw):
-        return request.render('gestion_profesorado.portal_actividad_page', {
+        return request.render('gestion_estudiantil.portal_actividad_page', {
             'activity': activity,
         })
 

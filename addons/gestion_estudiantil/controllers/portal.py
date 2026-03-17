@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import base64 
 from odoo import http
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager
@@ -33,6 +34,47 @@ class EstudiantePortal(CustomerPortal):
             'actividades': actividades,
             'page_name': 'actividades',
         })
+
+    @http.route(['/my/activities/<int:activity_id>'], type='http', auth="user", website=True)
+    def portal_activity_detail(self, activity_id, **kw):
+        # Buscamos la actividad por su ID
+        activity = request.env['gestion.activity'].sudo().browse(activity_id)
+        
+        # Si la actividad no existe, devolvemos un error 404
+        if not activity.exists():
+            return request.not_found()
+
+        return request.render("gestion_estudiantil.portal_actividad_page", {
+            'activity': activity,
+            'page_name': 'actividad_detalle',
+        })
+    
+    @http.route(['/gestion/actividad/subir'], type='http', auth="user", methods=['POST'], website=True, csrf=True)
+    def portal_submit_activity(self, **post):
+        # 1. Obtenemos los datos del formulario
+        activity_id = int(post.get('activity_id'))
+        archivo = post.get('archivo_tarea')
+        
+        # 2. Identificamos al estudiante (el partner del usuario logueado)
+        student_id = request.env.user.partner_id.id
+
+        # 3. Verificamos que se haya subido un archivo
+        if archivo:
+            # Leemos el archivo y lo codificamos en base64 para guardarlo en Odoo
+            file_content = base64.b64encode(archivo.read())
+            file_name = archivo.filename
+
+            # 4. Creamos el registro en gestion.submission usando sudo()
+            request.env['gestion.submission'].sudo().create({
+                'activity_id': activity_id,
+                'student_id': student_id,
+                'file_data': file_content,
+                'file_name': file_name,
+            })
+
+        # 5. Redirigimos de vuelta a la página de la actividad con un mensaje de éxito
+        return request.redirect(f'/my/activities/{activity_id}?success=1')
+
 
     # 3. RUTA PARA NOTAS (Modelo grade.grade)
     @http.route(['/my/grades'], type='http', auth="user", website=True)
