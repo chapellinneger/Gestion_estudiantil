@@ -73,3 +73,47 @@ class Grade(models.Model):
                     'description': f'Actualización de nota para {record.student_id.name}'
                 })
         return res
+    
+    from odoo import models, fields, api
+
+class GestionSubmissionInherit(models.Model):
+    # Heredamos el modelo del módulo de profesorado
+    _inherit = 'gestion.submission'
+
+    def write(self, vals):
+        # 1. Guardamos la nota normalmente en la entrega
+        res = super(GestionSubmissionInherit, self).write(vals)
+        
+        # 2. Si el profesor modificó la calificación o las observaciones...
+        if 'score' in vals or 'notes' in vals:
+            for record in self:
+               
+                estudiante_perfil = self.env['gestion.student'].search([
+                    ('partner_id', '=', record.student_id.id)
+                ], limit=1)
+
+                if estudiante_perfil:
+                    grade_env = self.env['grade.grade'].sudo()
+                    
+                    # Buscamos si ya existe una nota para no romper tu _check_unique_grade
+                    nota_oficial = grade_env.search([
+                        ('student_id', '=', estudiante_perfil.id),
+                        ('activity_id', '=', record.activity_id.id)
+                    ], limit=1)
+                    
+                    valores_nota = {
+                        'student_id': estudiante_perfil.id,
+                        'teacher_id': record.activity_id.teacher_id.id,
+                        'activity_id': record.activity_id.id,
+                        'score': record.score,
+                        'teacher_feedback': record.notes,
+                        'description': f"Nota sincronizada desde la entrega web para {estudiante_perfil.name}",
+                    }
+                    
+                    if nota_oficial:
+                        nota_oficial.write(valores_nota)
+                    else:
+                        grade_env.create(valores_nota)
+                        
+        return res
+
