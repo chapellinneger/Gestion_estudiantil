@@ -26,6 +26,12 @@ class GestionAttendance(models.Model):
         store=True
     )
 
+    estado_periodo_materia = fields.Selection(
+        related='subject_id.estado_periodo',
+        string="Estado de la Materia",
+        readonly=True
+    )
+
     state = fields.Selection([
         ('draft', 'Borrador'),
         ('confirmed', 'Confirmado')

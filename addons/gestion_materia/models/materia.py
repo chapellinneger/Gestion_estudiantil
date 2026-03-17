@@ -8,6 +8,35 @@ class GestionMateria(models.Model):
     name = fields.Char(string="Nombre de la materia", required=True)
     codigo_materia = fields.Char(string="Código de la materia", required=True)
 
+    periodo_academico = fields.Char(
+        string="Período Académico", 
+        required=True,
+        default="2026-I", # Ideal para el año en curso
+        help="Ejemplo: 2026-I o 2026-2027"
+    )
+    
+    date_start = fields.Date(string="Fecha de Inicio", required=True)
+    date_end = fields.Date(string="Fecha de Cierre", required=True)
+
+    # Este campo se calcula solo, no se guarda en base de datos para que siempre esté actualizado al día de hoy
+    estado_periodo = fields.Selection([
+        ('abierto', 'En Curso'),
+        ('cerrado', 'Finalizado')
+    ], string="Estado del Período", compute="_compute_estado_periodo")
+
+    @api.depends('date_start', 'date_end')
+    def _compute_estado_periodo(self):
+        hoy = fields.Date.today()
+        for record in self:
+            if record.date_start and record.date_end:
+                # Si hoy está entre la fecha de inicio y la de cierre, está abierto
+                if record.date_start <= hoy <= record.date_end:
+                    record.estado_periodo = 'abierto'
+                else:
+                    record.estado_periodo = 'cerrado'
+            else:
+                record.estado_periodo = 'cerrado'
+
     teacher_id = fields.Many2one(
         comodel_name="gestion.teacher",
         string="Profesor titular",

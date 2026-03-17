@@ -33,6 +33,14 @@
                     <group>
                         <field name="teacher_id" options="{'no_open': True, 'no_create': True}"/>
                     </group>
+                    <group>
+                        <field name="estado_periodo_materia" 
+                               widget="badge" 
+                               decoration-success="estado_periodo_materia == 'abierto'" 
+                               decoration-danger="estado_periodo_materia == 'cerrado'"
+                               invisible="not subject_id"/>
+                    </group>
+
                 </group>
                 <notebook>
                         <page string="Lista de Estudiantes">
