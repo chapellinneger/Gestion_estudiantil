@@ -7,8 +7,7 @@ class GestionSeccion(models.Model):
 
     name = fields.Char(required=True)
     subject_id = fields.Many2one("gestion.materia", string="Materia", required=True)
-    teacher_id = fields.Many2one("res.partner", string="Profesor", domain=[("is_teacher", "=", True)])
-    student_ids = fields.Many2many("res.partner", string="Estudiantes")
+    teacher_id = fields.Many2one("gestion.teacher", string="Profesor", domain=[("is_teacher", "=", True)])
     state = fields.Selection(
         [
             ("abierto", "Abierto"),

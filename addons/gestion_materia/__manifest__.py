@@ -8,7 +8,6 @@
     "data": [
         "security/ir.model.access.csv",
         "views/materia_views.xml",
-        "data/materias_data.xml",
     ],
     "installable": True,
     "application": True,

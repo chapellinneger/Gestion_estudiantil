@@ -83,7 +83,7 @@ class GestionAttendanceLine(models.Model):
     _description = 'Línea de Asistencia'
 
     attendance_id = fields.Many2one('gestion.attendance', string="Registro de Asistencia", ondelete='cascade')
-    student_id = fields.Many2one('res.partner', string="Estudiante", required=True) 
+    student_id = fields.Many2one('gestion.student', string="Estudiante", required=True) 
     present = fields.Boolean(string="Presente", default=True)
 
 

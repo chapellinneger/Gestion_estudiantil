@@ -14,7 +14,8 @@
         'security/ir.model.access.csv',
         'views/website_portal_templates.xml',
         'views/views.xml',
-        'views/asistencia_view.xml',  # mi  archivo XML
+        'views/asistencia_view.xml',
+        'views/gestion_seccion_inherit_views.xml',
     ],
     'installable': True,
     'application': True,

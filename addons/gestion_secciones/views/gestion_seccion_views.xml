@@ -24,10 +24,6 @@
                         <field name="teacher_id"/>
                         <field name="state"/>
                     </group>
-
-                    <group string="Estudiantes">
-                        <field name="student_ids" widget="many2many_tags"/>
-                    </group>
                 </sheet>
             </form>
         </field>

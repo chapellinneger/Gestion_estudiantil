@@ -12,9 +12,11 @@ class EstudiantePortal(CustomerPortal):
         values = self._prepare_portal_layout_values()
         partner_id = request.env.user.partner_id.id
         
-        # Agregamos .sudo() para evitar bloqueos al leer las materias de otros módulos
+        # Buscamos el estudiante y lo usamos en el domain
+        student = request.env['gestion.student'].sudo().search([('partner_id', '=', partner_id)], limit=1)
+        
         secciones = request.env['gestion.seccion'].sudo().search([
-            ('student_ids', 'in', partner_id)
+            ('student_ids', 'in', student.id if student else 0)
         ])
         
         return request.render("gestion_estudiantil.portal_my_subjects_template", {
@@ -27,7 +29,6 @@ class EstudiantePortal(CustomerPortal):
     def portal_my_activities(self, **kw):
         values = self._prepare_portal_layout_values()
         
-        # El .sudo() aquí es CRUCIAL para que act.teacher_id.name no de error 403
         actividades = request.env['gestion.activity'].sudo().search([])
         
         return request.render("gestion_estudiantil.portal_my_activities_template", {
@@ -37,10 +38,8 @@ class EstudiantePortal(CustomerPortal):
 
     @http.route(['/my/activities/<int:activity_id>'], type='http', auth="user", website=True)
     def portal_activity_detail(self, activity_id, **kw):
-        # Buscamos la actividad por su ID
         activity = request.env['gestion.activity'].sudo().browse(activity_id)
         
-        # Si la actividad no existe, devolvemos un error 404
         if not activity.exists():
             return request.not_found()
 
@@ -51,30 +50,26 @@ class EstudiantePortal(CustomerPortal):
     
     @http.route(['/gestion/actividad/subir'], type='http', auth="user", methods=['POST'], website=True, csrf=True)
     def portal_submit_activity(self, **post):
-        # 1. Obtenemos los datos del formulario
         activity_id = int(post.get('activity_id'))
         archivo = post.get('archivo_tarea')
         
-        # 2. Identificamos al estudiante (el partner del usuario logueado)
-        student_id = request.env.user.partner_id.id
+        partner_id = request.env.user.partner_id.id
+        # Buscamos al estudiante real para asignarle la tarea
+        student = request.env['gestion.student'].sudo().search([('partner_id', '=', partner_id)], limit=1)
 
-        # 3. Verificamos que se haya subido un archivo
-        if archivo:
-            # Leemos el archivo y lo codificamos en base64 para guardarlo en Odoo
+        if archivo and student:
             file_content = base64.b64encode(archivo.read())
             file_name = archivo.filename
 
-            # 4. Creamos el registro en gestion.submission usando sudo()
+            # Usamos student.id en la creación
             request.env['gestion.submission'].sudo().create({
                 'activity_id': activity_id,
-                'student_id': student_id,
+                'student_id': student.id,
                 'file_data': file_content,
                 'file_name': file_name,
             })
 
-        # 5. Redirigimos de vuelta a la página de la actividad con un mensaje de éxito
         return request.redirect(f'/my/activities/{activity_id}?success=1')
-
 
     # 3. RUTA PARA NOTAS (Modelo grade.grade)
     @http.route(['/my/grades'], type='http', auth="user", website=True)
@@ -82,7 +77,7 @@ class EstudiantePortal(CustomerPortal):
         values = self._prepare_portal_layout_values()
         user_name = request.env.user.name
         
-        # Usamos .sudo() por si el modelo grade.grade tiene restricciones de lectura
+        # Dejado igual, asumiendo que el ilike por nombre sigue funcionando con la herencia
         notas = request.env['grade.grade'].sudo().search([
             ('student_id.name', 'ilike', user_name)
         ])
@@ -98,8 +93,10 @@ class EstudiantePortal(CustomerPortal):
         values = self._prepare_portal_layout_values()
         partner_id = request.env.user.partner_id.id
         
+        student = request.env['gestion.student'].sudo().search([('partner_id', '=', partner_id)], limit=1)
+        
         asistencias = request.env['gestion.attendance_line'].sudo().search([
-            ('student_id', '=', partner_id)
+            ('student_id', '=', student.id if student else 0)
         ])
         
         return request.render("gestion_estudiantil.portal_my_absences_template", {
@@ -113,8 +110,10 @@ class EstudiantePortal(CustomerPortal):
         values = self._prepare_portal_layout_values()
         partner_id = request.env.user.partner_id.id
         
+        student = request.env['gestion.student'].sudo().search([('partner_id', '=', partner_id)], limit=1)
+        
         secciones = request.env['gestion.seccion'].sudo().search([
-            ('student_ids', 'in', partner_id)
+            ('student_ids', 'in', student.id if student else 0)
         ])
         
         return request.render("gestion_estudiantil.portal_my_sections_template", {
@@ -128,9 +127,10 @@ class EstudiantePortal(CustomerPortal):
         values = self._prepare_portal_layout_values()
         partner_id = request.env.user.partner_id.id
         
-        # Obtenemos las secciones con sudo para poder mapear los profesores sin error de acceso
+        student = request.env['gestion.student'].sudo().search([('partner_id', '=', partner_id)], limit=1)
+        
         secciones = request.env['gestion.seccion'].sudo().search([
-            ('student_ids', 'in', partner_id)
+            ('student_ids', 'in', student.id if student else 0)
         ])
         profesores = secciones.mapped('teacher_id')
         
