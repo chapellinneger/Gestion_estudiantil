@@ -26,13 +26,60 @@ class EstudiantePortal(CustomerPortal):
 
     # 2. RUTA PARA ACTIVIDADES
     @http.route(['/my/activities'], type='http', auth="user", website=True)
-    def portal_my_activities(self, **kw):
-        values = self._prepare_portal_layout_values()
+    def portal_my_activities(self, search='', subject_filter=None, section_filter=None, **kw):
+        partner_id = request.env.user.partner_id.id
+        student = request.env['gestion.student'].sudo().search([('partner_id', '=', partner_id)], limit=1)
         
-        actividades = request.env['gestion.activity'].sudo().search([])
+        # 1. Base del dominio
+        domain = [('section_id.student_ids', 'in', student.id if student else 0)]
         
+        if search:
+            domain += [('name', 'ilike', search)]
+        
+        try:
+            sub_id = int(subject_filter) if subject_filter else 0
+        except ValueError:
+            sub_id = 0
+            
+        try:
+            sec_id = int(section_filter) if section_filter else 0
+        except ValueError:
+            sec_id = 0
+
+        # 2. Lógica de Choque de Filtros
+        if sub_id:
+            domain += [('subject_id', '=', sub_id)]
+            # Si eligió una materia, verificamos que la sección seleccionada pertenezca a esa materia
+            if sec_id:
+                check_sec = request.env['gestion.seccion'].sudo().browse(sec_id)
+                # Si la sección es de otra materia, ignoramos el filtro de sección
+                if check_sec.exists() and check_sec.subject_id.id != sub_id:
+                    sec_id = 0 
+
+        if sec_id:
+            domain += [('section_id', '=', sec_id)]
+            
+        actividades = request.env['gestion.activity'].sudo().search(domain)
+        
+        # 3. Datos para los selectores web
+        all_secciones = request.env['gestion.seccion'].sudo().search([
+            ('student_ids', 'in', student.id if student else 0)
+        ])
+        materias_alumno = all_secciones.mapped('subject_id')
+
+        # Si hay materia seleccionada, solo enviamos las secciones de ESA materia al portal
+        if sub_id:
+            secciones_para_filtro = all_secciones.filtered(lambda s: s.subject_id.id == sub_id)
+        else:
+            secciones_para_filtro = all_secciones
+
         return request.render("gestion_estudiantil.portal_my_activities_template", {
             'actividades': actividades,
+            'materias': materias_alumno,
+            'secciones': secciones_para_filtro,
+            'search': search,
+            'subject_filter': sub_id,
+            'section_filter': sec_id,
             'page_name': 'actividades',
         })
 
