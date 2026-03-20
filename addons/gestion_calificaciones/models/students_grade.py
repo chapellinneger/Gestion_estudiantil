@@ -1,4 +1,5 @@
 from odoo import models, fields
+from odoo.exceptions import ValidationError
 
 class StudentGrade(models.Model):
     _name = 'gestion.student.grade'

@@ -37,7 +37,6 @@
                             <page string="Entregas de Alumnos" name="submissions">
                                 <field name="submission_ids">
                                     <list editable="bottom">
-                                        <field name="student_id"/>
                                         <field name="submission_date"/>
                                         <field name="file_name" column_invisible="True"/>
                                         <field name="file_data" filename="file_name" widget="binary"/>
