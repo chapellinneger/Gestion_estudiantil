@@ -38,6 +38,7 @@ class Teacher(models.Model):
                     'login': record.email,
                     'partner_id': record.partner_id.id,
                     'groups_id': [(4, self.env.ref('gestion_profesorado.group_profesor').id)],
+                    'action_id': self.env.ref('gestion_estudiantil.action_estudiantes_final').id,
                 }
                 user = self.env['res.users'].create(user_vals)
                 record.user_id = user

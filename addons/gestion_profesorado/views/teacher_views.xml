@@ -49,6 +49,6 @@
     </record>
 
     <menuitem name="Gestion Profesorado" id="gestion_profesorado.menu_root"/>
-    <menuitem name="Profesores" id="gestion_profesorado.menu_1" parent="gestion_profesorado.menu_root" action="gestion_profesorado.action_window"/>
+    <menuitem name="Profesores" id="gestion_profesorado.menu_1" parent="gestion_profesorado.menu_root" action="gestion_profesorado.action_window" groups="base.group_system"/>
   </data>
 </odoo>

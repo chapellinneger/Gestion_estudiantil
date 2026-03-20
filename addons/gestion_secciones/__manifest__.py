@@ -9,7 +9,6 @@
     "data": [
         "security/ir.model.access.csv",
         "views/gestion_seccion_views.xml",
-        "views/menu_views.xml",
     ],
     "installable": True,
     "application": True,

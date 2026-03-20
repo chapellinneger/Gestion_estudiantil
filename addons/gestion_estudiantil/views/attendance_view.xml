@@ -5,8 +5,8 @@
         <field name="arch" type="xml">
             <list string="Asistencias">
                 <field name="date"/>
-                <field name="section_id"/>
-                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
+                <field name="subject_id"/> <field name="section_id"/>
+                <field name="teacher_id"/> <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'"/>
             </list>
         </field>
     </record>
@@ -19,15 +19,32 @@
                 <header>
                     <button name="action_confirm" string="Confirmar" type="object" invisible="state == 'confirmed'" class="oe_highlight"/>
                     <field name="state" widget="statusbar"/>
-                </header>
-                <sheet>
+            </header>
+            <sheet>
+                <group>
                     <group>
                         <field name="date"/>
-                        <field name="section_id"/>
+                        <field name="subject_id" domain="[('teacher_id.user_ids', '=', uid)]"/>
+                        
+                        <field name="section_id" 
+                               domain="[('subject_id', '=', subject_id), ('teacher_id.user_ids', '=', uid)]" 
+                               invisible="not subject_id"/>
                     </group>
-                    <notebook>
+                    <group>
+                        <field name="teacher_id" options="{'no_open': True, 'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="estado_periodo_materia" 
+                               widget="badge" 
+                               decoration-success="estado_periodo_materia == 'abierto'" 
+                               decoration-danger="estado_periodo_materia == 'cerrado'"
+                               invisible="not subject_id"/>
+                    </group>
+
+                </group>
+                <notebook>
                         <page string="Lista de Estudiantes">
-                            <field name="attendance_line_ids">
+                            <field name="attendance_line_ids" readonly="state == 'confirmed'">
                                 <list editable="bottom">
                                     <field name="student_id"/>
                                     <field name="present"/>
