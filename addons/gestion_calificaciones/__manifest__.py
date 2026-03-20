@@ -13,7 +13,9 @@
     'depends': ['base', 'gestion_estudiantil', 'gestion_materia', 'gestion_profesorado'],
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'views/student_grade_views.xml',
-        'views/views.xml',
+        'views/grade_views.xml',
+        'views/activity_inherit_views.xml'
     ],
 }

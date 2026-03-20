@@ -1,12 +1,11 @@
 <odoo>
   <data>
 
-    <!-- LIST VIEW DEL HISTORIAL -->
     <record id="view_student_grade_list" model="ir.ui.view">
       <field name="name">gestion.student.grade.list</field>
       <field name="model">gestion.student.grade</field>
       <field name="arch" type="xml">
-        <list>
+        <list create="false" edit="false" delete="false">
           <field name="student_id"/>
           <field name="activity_id"/>
           <field name="score"/>
@@ -16,12 +15,11 @@
       </field>
     </record>
 
-    <!-- FORM VIEW DEL HISTORIAL -->
     <record id="view_student_grade_form" model="ir.ui.view">
       <field name="name">gestion.student.grade.form</field>
       <field name="model">gestion.student.grade</field>
       <field name="arch" type="xml">
-        <form>
+        <form create="false" edit="false" delete="false">
           <sheet>
             <group>
               <field name="student_id"/>
@@ -37,7 +35,6 @@
       </field>
     </record>
 
-    <!-- ACCIÓN PARA ABRIR EL HISTORIAL -->
     <record id="action_student_grade" model="ir.actions.act_window">
       <field name="name">Historial de Calificaciones</field>
       <field name="res_model">gestion.student.grade</field>

@@ -1,6 +1,4 @@
 <odoo>
-    <delete model="ir.ui.view" id="view_users_form_inherit_estudiantil"/>
-
     <!-- Tree View for Students -->
     <record id="view_student_tree" model="ir.ui.view">
         <field name="name">gestion.student.tree</field>
@@ -58,9 +56,6 @@
     <menuitem id="menu_gestion_secciones"
               name="Secciones"
               parent="menu_estudiantil_root"
+              action="gestion_secciones.action_gestion_seccion"
               sequence="20"/>
-
-    <menuitem id="menu_gestion_secciones_items"
-              parent="menu_gestion_secciones"
-              action="gestion_secciones.action_gestion_seccion"/>
 </odoo>

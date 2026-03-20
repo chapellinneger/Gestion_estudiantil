@@ -1,16 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class Activity(models.Model):
-    _inherit = 'gestion.activity'
-    
-    @api.constrains('name')
-    def checkname(self):
-        for record in self:
-            if not record.name or not record.name.strip():
-                raise ValidationError("El nombre de la actividad no puede estar vacío.")
-
-
 class Grade(models.Model):
     _name = 'grade.grade'
     _description = 'Calificación'
@@ -25,13 +15,10 @@ class Grade(models.Model):
 
     teacher_id = fields.Many2one('gestion.teacher', string='Docente')
     activity_id = fields.Many2one('gestion.activity', string='Actividad', required=True)
-    file = fields.Binary(string='Archivo Entregado')
-    file_name = fields.Char(string='Nombre del Archivo')
-    
+
     score = fields.Float(string='Calificación', help='Calificación numérica obtenida.')
     teacher_feedback = fields.Text(string='Comentarios del Profesor', help='Comentarios del profesor sobre el desempeño.')
     
-    # Fields from Luz_rama
     date = fields.Date(string="Fecha", default=fields.Date.context_today)
     description = fields.Text(string='Descripción de la Nota')
 
