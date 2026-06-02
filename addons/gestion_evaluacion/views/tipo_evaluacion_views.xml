@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_gestion_tipo_evaluacion_tree" model="ir.ui.view">
+            <field name="name">gestion.tipo.evaluacion.tree</field>
+            <field name="model">gestion.tipo.evaluacion</field>
+            <field name="arch" type="xml">
+                <tree string="Tipos de Evaluación">
+                    <field name="name"/>
+                    <field name="seccion_id"/>
+                    <field name="porcentaje"/>
+                    <field name="periodo_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_gestion_tipo_evaluacion" model="ir.actions.act_window">
+            <field name="name">Tipos de Evaluación</field>
+            <field name="res_model">gestion.tipo.evaluacion</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_gestion_evaluacion_config" 
+                  name="Configuración de Evaluaciones" 
+                  parent="gestion_estudiantes.menu_root" 
+                  sequence="20"/>
+
+        <menuitem id="menu_action_tipo_evaluacion" 
+                  name="Tipos de Evaluación" 
+                  parent="menu_gestion_evaluacion_config" 
+                  action="action_gestion_tipo_evaluacion" 
+                  sequence="10"/>
+
+    </data>
+</odoo>
