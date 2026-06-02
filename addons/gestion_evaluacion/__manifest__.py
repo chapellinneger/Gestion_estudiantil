@@ -5,10 +5,10 @@
     "version": "18.0.1.0.1",
     "author": "Christian y Marco - Subgrupo 1",
     "category": "Education",
-    "depends": ["base", "gestion_activity", "asistencias"],
+    "depends": ["base", "gestion_profesorado", "gestion_estudiantil"],
     "data": [
         "security/ir.model.access.csv",
-        "views/tipo_evaluacion_views.xml",
+        # "views/tipo_evaluacion_views.xml",
     ],
     "installable": True,
     "application": False,
