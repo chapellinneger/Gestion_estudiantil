@@ -7,12 +7,18 @@ class GestionTipoEvaluacion(models.Model):
     _description = 'Tipo de Evaluación'
 
     name = fields.Char(string='Nombre', required=True)
-    seccion_id = fields.Many2one('gestion.seccion', string='Sección', required=True)
+    materia_id = fields.Many2one('gestion.materia', string='Materia', required=True)
+    seccion_id = fields.Many2one(
+        'gestion.seccion', 
+        string='Sección', 
+        required=True,
+        domain="[('subject_id', '=', materia_id)]"
+    )
 
-    porcentaje = fields.Float(string='Porcentaje (%)', required=True)
+    porcentaje = fields.Float(string='Porcentaje (Peso)', required=True, default=0.0)
     periodo_id = fields.Many2one('gestion.periodo', string='Período Académico', required=True)
 
-    #validacion de suma de porcentajes por sección no supera 100%
+    # Validacion de suma de porcentajes por sección no supera 1.0 (100%)
     @api.constrains('porcentaje', 'seccion_id')
     def _check_porcentaje_total(self):
         for record in self:
@@ -21,13 +27,13 @@ class GestionTipoEvaluacion(models.Model):
                 ('id', '!=', record.id)
             ])
             suma = record.porcentaje + sum(t.porcentaje for t in tipos)
-            if suma > 100.0:
+            if round(suma, 4) > 1.0:
                 raise ValidationError(
-                    _("La suma de porcentajes para la sección '%s' supera el 100%% (%.2f%%)")
+                    _("La suma de porcentajes para la sección '%s' supera el 100%% (1.0). Suma total: %.2f")
                     % (record.seccion_id.name, suma)
                 )
-            if record.porcentaje < 0:
-                raise ValidationError(_("El porcentaje no puede ser negativo."))
+            if record.porcentaje <= 0:
+                raise ValidationError(_("El porcentaje debe ser estrictamente mayor a 0 (0%)."))
 
     # Asignar período activo por defecto
     @api.model
