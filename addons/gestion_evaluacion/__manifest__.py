@@ -10,6 +10,7 @@
         "security/ir.model.access.csv",
         "data/gestion_evaluacion_data.xml",
         "views/tipo_evaluacion_views.xml",
+        "views/attendance_inherit_views.xml",
     ],
     "installable": True,
     "application": False,

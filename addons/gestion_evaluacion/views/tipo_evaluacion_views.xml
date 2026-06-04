@@ -82,16 +82,21 @@
         </field>
     </record>
 
-    <!-- Menús para los modelos -->
+    <!-- Menús para los modelos agrupados en un submenú de configuración -->
+    <menuitem id="menu_gestion_evaluacion_config"
+              name="Configuración de Evaluaciones"
+              parent="gestion_estudiantil.menu_estudiantil_root"
+              sequence="50"/>
+
     <menuitem id="menu_gestion_periodo"
               name="Períodos Académicos"
-              parent="gestion_estudiantil.menu_estudiantil_root"
+              parent="menu_gestion_evaluacion_config"
               action="action_gestion_periodo"
-              sequence="30"/>
+              sequence="10"/>
 
     <menuitem id="menu_gestion_tipo_evaluacion"
               name="Tipos de Evaluación"
-              parent="gestion_estudiantil.menu_estudiantil_root"
+              parent="menu_gestion_evaluacion_config"
               action="action_gestion_tipo_evaluacion"
-              sequence="40"/>
+              sequence="20"/>
 </odoo>
