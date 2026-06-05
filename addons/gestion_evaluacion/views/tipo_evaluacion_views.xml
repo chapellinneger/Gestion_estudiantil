@@ -5,14 +5,23 @@
         <field name="name">gestion.tipo.evaluacion.form</field>
         <field name="model">gestion.tipo.evaluacion</field>
         <field name="arch" type="xml">
-            <form string="Tipo de Evaluación">
+            <form string="Configuración de Evaluación">
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nombre de la Categoría de Evaluación"/>
+                        <h1>
+                            <field name="name" placeholder="Ej: Proyecto Final, Asistencia, Exámenes"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="materia_id" options="{'no_create': True, 'no_open': True}"/>
-                        <field name="seccion_id" options="{'no_create': True, 'no_open': True}"/>
-                        <field name="porcentaje"/>
-                        <field name="periodo_id" domain="[('activo', '=', True)]"/>
+                        <group string="Asignación y Filtros">
+                            <field name="materia_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="seccion_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="periodo_id" domain="[('activo', '=', True)]" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <group string="Ponderación">
+                            <field name="porcentaje" widget="percentage" placeholder="Ej: 0.20 para 20%"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
