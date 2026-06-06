@@ -5,7 +5,7 @@
     "version": "18.0.1.0.1",
     "author": "Christian y Marco - Subgrupo 1",
     "category": "Education",
-    "depends": ["base", "gestion_profesorado", "gestion_estudiantil"],
+    "depends": ["base", "gestion_profesorado", "gestion_estudiantil", "gestion_materia"],
     "data": [
         "security/ir.model.access.csv",
         "data/gestion_evaluacion_data.xml",
