@@ -17,6 +17,7 @@
         'views/attendance_view.xml',
         'views/inherit_views.xml',
         'views/attendance_export_wizard_views.xml',
+        'views/attendance_report_templates.xml',
     ],
     'installable': True,
     'application': True,

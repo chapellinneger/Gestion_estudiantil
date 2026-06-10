@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_gestion_export_form_inherit_calificaciones" model="ir.ui.view">
+        <field name="name">gestion.export.form.inherit.calificaciones</field>
+        <field name="model">gestion.export</field>
+        <field name="inherit_id" ref="gestion_estudiantil.view_gestion_export_form"/>
+        <field name="arch" type="xml">
+            <!-- Insert subject_id filter when export type is grades -->
+            <xpath expr="//field[@name='filter_type']" position="after">
+                <field name="subject_id" invisible="export_type != 'grades'" placeholder="Todas las materias"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

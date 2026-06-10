@@ -16,6 +16,8 @@
         'security/security.xml',
         'views/student_grade_views.xml',
         'views/grade_views.xml',
-        'views/activity_inherit_views.xml'
+        'views/activity_inherit_views.xml',
+        'views/grades_export_wizard_views.xml',
+        'views/grades_report_templates.xml',
     ],
 }
