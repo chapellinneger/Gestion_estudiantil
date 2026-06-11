@@ -128,6 +128,15 @@
                                                 <t t-elif="doc.filter_type == 'section' and doc.section_id">
                                                     Sección: <span t-field="doc.section_id.name"/>
                                                 </t>
+                                                <t t-elif="doc.filter_type == 'subject' and doc.subject_id">
+                                                    Materia: <span t-field="doc.subject_id.name"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-label" style="padding: 2px 0;">Materia filtrada:</td>
+                                            <td class="info-val" style="padding: 2px 0;">
+                                                <span t-out="doc.subject_id.name or 'Todas las materias'"/>
                                             </td>
                                         </tr>
                                         <tr>

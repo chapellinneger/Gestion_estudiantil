@@ -22,7 +22,8 @@ class GestionExport(models.TransientModel):
     filter_type = fields.Selection([
         ('all', 'Todos'),
         ('section', 'Por Sección'),
-        ('single', 'Un estudiante')
+        ('single', 'Un estudiante'),
+        ('subject', 'Por Materia')
     ], string="Filtrar por", default="all", required=True)
 
     # Relación con el estudiante, requerida si se filtra por un solo estudiante
@@ -35,6 +36,12 @@ class GestionExport(models.TransientModel):
     section_id = fields.Many2one(
         'gestion.seccion', 
         string="Sección"
+    )
+
+    # Campo para filtrar por materia específica (opcional)
+    subject_id = fields.Many2one(
+        'gestion.materia',
+        string="Materia"
     )
 
     # Rango de fechas para el reporte (opcionales)
@@ -69,6 +76,10 @@ class GestionExport(models.TransientModel):
         # Filtra por una sección específica
         elif self.filter_type == 'section' and self.section_id:
             domain.append(('attendance_id.section_id', '=', self.section_id.id))
+            
+        # Filtra por materia
+        if self.subject_id:
+            domain.append(('attendance_id.subject_id', '=', self.subject_id.id))
             
         # Filtra por rango de fechas 
         if self.date_from:
@@ -165,10 +176,17 @@ class GestionExport(models.TransientModel):
             filter_text = f"Estudiante: {self.student_id.name}"
         elif self.filter_type == 'section' and self.section_id:
             filter_text = f"Sección: {self.section_id.name}"
+        elif self.filter_type == 'subject' and self.subject_id:
+            filter_text = f"Materia: {self.subject_id.name}"
         sheet_resumen.write('B3', filter_text, info_normal)
-        sheet_resumen.write('A4', 'Rango de fechas:', info_bold)
+
+        sheet_resumen.write('A4', 'Materia filtrada:', info_bold)
+        subject_text = self.subject_id.name if self.subject_id else "Todas las materias"
+        sheet_resumen.write('B4', subject_text, info_normal)
+
+        sheet_resumen.write('A5', 'Rango de fechas:', info_bold)
         date_text = f"Desde {self.date_from or 'Inicio'} hasta {self.date_to or 'Fin'}"
-        sheet_resumen.write('B4', date_text, info_normal)
+        sheet_resumen.write('B5', date_text, info_normal)
 
         # Escribe las cabeceras de la tabla resumen
         headers_resumen = ['Estudiante', 'Matrícula', 'Clase(s) / Sección', 'Clases Totales', 'Asistencias', 'Inasistencias', '% Asistencia']

@@ -17,6 +17,7 @@
                         <group string="Criterio de Selección">
                             <field name="student_id" invisible="filter_type != 'single'" required="filter_type == 'single'"/>
                             <field name="section_id" invisible="filter_type != 'section'" required="filter_type == 'section'"/>
+                            <field name="subject_id" placeholder="Todas las materias" required="filter_type == 'subject'"/>
                         </group>
                     </group>
                     <group string="Rango de Fechas">

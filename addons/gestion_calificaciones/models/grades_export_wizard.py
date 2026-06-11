@@ -1,5 +1,7 @@
+# pyrefly: ignore [missing-import]
 from odoo import models, fields, api
 import io
+# pyrefly: ignore [missing-import]
 import xlsxwriter
 import base64
 
@@ -12,11 +14,6 @@ class GestionExportCalificaciones(models.TransientModel):
         ondelete={'grades': 'cascade'}
     )
 
-    # Campo para filtrar por materia específica (opcional)
-    subject_id = fields.Many2one(
-        'gestion.materia',
-        string="Materia"
-    )
 
     def get_grade_lines(self):
         """Busca y retorna las calificaciones que coinciden con los filtros del wizard."""
@@ -121,6 +118,8 @@ class GestionExportCalificaciones(models.TransientModel):
             filter_text = f"Estudiante: {self.student_id.name}"
         elif self.filter_type == 'section' and self.section_id:
             filter_text = f"Sección: {self.section_id.name}"
+        elif self.filter_type == 'subject' and self.subject_id:
+            filter_text = f"Materia: {self.subject_id.name}"
         sheet_resumen.write('B3', filter_text, info_normal)
         
         sheet_resumen.write('A4', 'Materia filtrada:', info_bold)
