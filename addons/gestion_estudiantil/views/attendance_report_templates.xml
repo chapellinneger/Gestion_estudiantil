@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_attendance_pdf" model="ir.actions.report">
+        <field name="name">Reporte de Asistencias (PDF)</field>
+        <field name="model">gestion.export</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gestion_estudiantil.report_attendance_template</field>
+        <field name="report_file">gestion_estudiantil.report_attendance_template</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Main Report Template -->
+    <template id="report_attendance_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <!-- Custom Styles for Premium Presentation -->
+                    <style>
+                        .report-container {
+                            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                            color: #2C3E50;
+                        }
+                        .report-header-title {
+                            color: #2980B9;
+                            font-size: 26px;
+                            font-weight: 700;
+                            margin-bottom: 25px;
+                            text-align: center;
+                            text-transform: uppercase;
+                            border-bottom: 3px solid #2C3E50;
+                            padding-bottom: 12px;
+                        }
+                        .info-card {
+                            background-color: #F8F9FA;
+                            border: 1px solid #E2E8F0;
+                            border-radius: 6px;
+                            padding: 15px;
+                            margin-bottom: 30px;
+                        }
+                        .info-label {
+                            font-weight: bold;
+                            color: #34495E;
+                            font-size: 13px;
+                        }
+                        .info-val {
+                            font-size: 13px;
+                            color: #2C3E50;
+                        }
+                        .report-section-title {
+                            font-size: 18px;
+                            font-weight: 600;
+                            color: #2C3E50;
+                            margin-top: 30px;
+                            margin-bottom: 15px;
+                            border-left: 5px solid #2980B9;
+                            padding-left: 12px;
+                        }
+                        .table-premium {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-bottom: 25px;
+                            font-size: 12px;
+                        }
+                        .table-premium th {
+                            background-color: #2C3E50;
+                            color: #FFFFFF !important;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            font-size: 11px;
+                            padding: 8px 10px;
+                            border: 1px solid #34495E;
+                            text-align: center;
+                        }
+                        .table-premium td {
+                            padding: 8px 10px;
+                            border: 1px solid #E2E8F0;
+                            vertical-align: middle;
+                        }
+                        .table-premium tr:nth-child(even) td {
+                            background-color: #F8F9FA;
+                        }
+                        .badge-present {
+                            background-color: #D4EDDA;
+                            color: #155724;
+                            border: 1px solid #C3E6CB;
+                            padding: 3px 8px;
+                            border-radius: 4px;
+                            font-weight: 600;
+                            font-size: 10px;
+                            display: inline-block;
+                        }
+                        .badge-absent {
+                            background-color: #F8D7DA;
+                            color: #721C24;
+                            border: 1px solid #F5C6CB;
+                            padding: 3px 8px;
+                            border-radius: 4px;
+                            font-weight: 600;
+                            font-size: 10px;
+                            display: inline-block;
+                        }
+                        .text-ratio {
+                            font-weight: bold;
+                            color: #2980B9;
+                        }
+                    </style>
+
+                    <div class="page report-container">
+                        <!-- Header / Title -->
+                        <div class="report-header-title">
+                            Reporte de Asistencia de Estudiantes
+                        </div>
+
+                        <!-- Info Card / Parameters -->
+                        <div class="info-card">
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table table-sm table-borderless mb-0">
+                                        <tr>
+                                            <td class="info-label" style="width: 40%; padding: 2px 0;">Filtro utilizado:</td>
+                                            <td class="info-val" style="padding: 2px 0;">
+                                                <t t-if="doc.filter_type == 'all'">Todos los estudiantes</t>
+                                                <t t-elif="doc.filter_type == 'single' and doc.student_id">
+                                                    Estudiante: <span t-field="doc.student_id.name"/>
+                                                </t>
+                                                <t t-elif="doc.filter_type == 'section' and doc.section_id">
+                                                    Sección: <span t-field="doc.section_id.name"/>
+                                                </t>
+                                                <t t-elif="doc.filter_type == 'subject' and doc.subject_id">
+                                                    Materia: <span t-field="doc.subject_id.name"/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-label" style="padding: 2px 0;">Materia filtrada:</td>
+                                            <td class="info-val" style="padding: 2px 0;">
+                                                <span t-out="doc.subject_id.name or 'Todas las materias'"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-label" style="padding: 2px 0;">Fecha Generación:</td>
+                                            <td class="info-val" style="padding: 2px 0;">
+                                                <span t-out="doc.get_today_date()"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm table-borderless mb-0">
+                                        <tr>
+                                            <td class="info-label" style="width: 40%; padding: 2px 0;">Fecha Desde:</td>
+                                            <td class="info-val" style="padding: 2px 0;">
+                                                <span t-out="doc.date_from or 'Inicio'"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="info-label" style="padding: 2px 0;">Fecha Hasta:</td>
+                                            <td class="info-val" style="padding: 2px 0;">
+                                                <span t-out="doc.date_to or 'Fin'"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Data retrieval -->
+                        <t t-set="lines" t-value="doc.get_attendance_lines()"/>
+                        <t t-set="students" t-value="lines.mapped('student_id')"/>
+
+                        <!-- SECTION 1: RESUMEN DE ASISTENCIA -->
+                        <div class="report-section-title">Resumen de Asistencia</div>
+                        <t t-if="students">
+                            <table class="table-premium">
+                                <thead>
+                                    <tr>
+                                        <th>Estudiante</th>
+                                        <th style="width: 15%;">Matrícula</th>
+                                        <th style="width: 25%;">Sección(es)</th>
+                                        <th style="width: 12%;">Clases Totales</th>
+                                        <th style="width: 12%;">Asistencias</th>
+                                        <th style="width: 12%;">Inasistencias</th>
+                                        <th style="width: 12%;">% Asistencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="students" t-as="student">
+                                        <t t-set="student_lines" t-value="lines.filtered(lambda l: l.student_id == student)"/>
+                                        <t t-set="total_classes" t-value="len(student_lines)"/>
+                                        <t t-set="presents" t-value="len(student_lines.filtered(lambda l: l.present))"/>
+                                        <t t-set="absents" t-value="total_classes - presents"/>
+                                        <t t-set="ratio" t-value="(presents / total_classes * 100) if total_classes &gt; 0 else 0.0"/>
+                                        <t t-set="sections" t-value="doc.env['gestion.seccion'].search([('student_ids', 'in', student.id)])"/>
+                                        
+                                        <tr>
+                                            <td><span t-field="student.name"/></td>
+                                            <td class="text-center"><span t-field="student.enrollment_number"/></td>
+                                            <td class="text-center"><span t-out="', '.join(sections.mapped('name')) or 'Ninguna'"/></td>
+                                            <td class="text-center"><span t-out="total_classes"/></td>
+                                            <td class="text-center"><span t-out="presents"/></td>
+                                            <td class="text-center"><span t-out="absents"/></td>
+                                            <td class="text-center text-ratio"><span t-out="'%.2f' % ratio"/>%</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-info text-center" style="font-size: 13px;">
+                                No hay datos de resumen de asistencia disponibles para los criterios seleccionados.
+                            </div>
+                        </t>
+
+                        <!-- Page break for details -->
+                        <div style="page-break-before: always;"/>
+
+                        <!-- SECTION 2: DETALLE DE ASISTENCIAS -->
+                        <div class="report-section-title">Detalle de Asistencias</div>
+                        <t t-if="lines">
+                            <table class="table-premium">
+                                <thead>
+                                    <tr>
+                                        <th>Estudiante</th>
+                                        <th style="width: 18%;">Fecha</th>
+                                        <th style="width: 22%;">Sección</th>
+                                        <th style="width: 25%;">Materia</th>
+                                        <th style="width: 15%;">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="lines" t-as="line">
+                                        <tr>
+                                            <td><span t-field="line.student_id.name"/></td>
+                                            <td class="text-center"><span t-field="line.attendance_id.date" t-options='{"widget": "date"}'/></td>
+                                            <td class="text-center"><span t-field="line.attendance_id.section_id.name"/></td>
+                                            <td class="text-center"><span t-field="line.attendance_id.subject_id.name"/></td>
+                                            <td class="text-center">
+                                                <t t-if="line.present">
+                                                    <span class="badge-present">Asistió</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span class="badge-absent">Inasistió</span>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-info text-center" style="font-size: 13px;">
+                                No hay detalles de asistencias que mostrar.
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

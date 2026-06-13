@@ -1,4 +1,6 @@
+# pyrefly: ignore [missing-import]
 from odoo import models, fields, api
+# pyrefly: ignore [missing-import]
 from odoo.exceptions import ValidationError
 
 class Grade(models.Model):

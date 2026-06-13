@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View for Export Wizard -->
+    <record id="view_gestion_export_form" model="ir.ui.view">
+        <field name="name">gestion.export.form</field>
+        <field name="model">gestion.export</field>
+        <field name="arch" type="xml">
+            <form string="Exportar Asistencias">
+                <field name="state" invisible="1"/>
+                <div invisible="state != 'choose'">
+                    <group>
+                        <group string="Formato y Filtro">
+                            <field name="export_type" widget="radio"/>
+                            <field name="export_format" widget="radio"/>
+                            <field name="filter_type"/>
+                        </group>
+                        <group string="Criterio de Selección">
+                            <field name="student_id" invisible="filter_type != 'single'" required="filter_type == 'single'"/>
+                            <field name="section_id" invisible="filter_type != 'section'" required="filter_type == 'section'"/>
+                            <field name="subject_id" placeholder="Todas las materias" required="filter_type == 'subject'"/>
+                        </group>
+                    </group>
+                    <group string="Rango de Fechas">
+                        <group>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                </div>
+                <div invisible="state != 'get'">
+                    <group>
+                        <field name="file_name" invisible="1"/>
+                        <div class="text-center">
+                            <h3>¡Reporte Generado con Éxito!</h3>
+                            <p>Haga clic en el botón de abajo para descargar el archivo de Excel.</p>
+                            <field name="file_data" filename="file_name" readonly="1" class="oe_inline"/>
+                        </div>
+                    </group>
+                </div>
+                <footer>
+                    <div invisible="state != 'choose'">
+                        <button name="action_export" string="Generar Reporte" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </div>
+                    <div invisible="state != 'get'">
+                        <button name="action_back" string="Atrás" type="object" class="btn-secondary"/>
+                        <button string="Cerrar" class="btn-primary" special="cancel"/>
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open Export Wizard -->
+    <record id="action_gestion_export_wizard" model="ir.actions.act_window">
+        <field name="name">Exportar Asistencias</field>
+        <field name="res_model">gestion.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item for Export Wizard -->
+    <menuitem id="menu_gestion_export_wizard"
+              name="Exportar Asistencias"
+              parent="menu_estudiantil_root"
+              action="action_gestion_export_wizard"
+              sequence="30"/>
+</odoo>
