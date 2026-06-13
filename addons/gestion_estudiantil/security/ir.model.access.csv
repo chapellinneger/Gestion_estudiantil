@@ -20,6 +20,8 @@ access_attendance_line_profesor,asistencia.linea.profesor,model_gestion_attendan
 access_gestion_student_profesor,gestion.student.profesor,model_gestion_student,gestion_profesorado.group_profesor,1,0,0,0
 access_gestion_seccion_profesor,gestion.seccion.profesor,gestion_secciones.model_gestion_seccion,gestion_profesorado.group_profesor,1,0,0,0
 access_gestion_materias_profesor,gestion.materia.profesor,gestion_materia.model_gestion_materia,gestion_profesorado.group_profesor,1,0,0,0
+access_gestion_export_admin,gestion.export.admin,model_gestion_export,base.group_system,1,1,1,1
+access_gestion_export_profesor,gestion.export.profesor,model_gestion_export,gestion_profesorado.group_profesor,1,1,1,1
 
 access_gestion_participacion_profesor,gestion.participacion.profesor,model_gestion_participacion_clase,gestion_profesorado.group_profesor,1,1,1,1
 access_gestion_participacion_line_profesor,gestion.participacion.line.profesor,model_gestion_participacion_line,gestion_profesorado.group_profesor,1,1,1,1

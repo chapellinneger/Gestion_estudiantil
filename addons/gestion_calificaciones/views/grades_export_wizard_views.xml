@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- El campo subject_id ahora está definido directamente en la vista base en gestion_estudiantil -->
+</odoo>
