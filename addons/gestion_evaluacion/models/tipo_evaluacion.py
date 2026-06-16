@@ -18,6 +18,22 @@ class GestionTipoEvaluacion(models.Model):
     porcentaje = fields.Float(string='Porcentaje (Peso)', required=True, default=0.0)
     periodo_id = fields.Many2one('gestion.periodo', string='Período Académico', required=True)
 
+    # Limpiar la sección seleccionada si se cambia la materia en el formulario
+    @api.onchange('materia_id')
+    def _onchange_materia_id(self):
+        self.seccion_id = False
+
+    # Validar que la sección realmente pertenezca a la materia seleccionada
+    @api.constrains('materia_id', 'seccion_id')
+    def _check_materia_seccion_coherencia(self):
+        for record in self:
+            if record.seccion_id and record.materia_id:
+                if record.seccion_id.subject_id != record.materia_id:
+                    raise ValidationError(
+                        _("Inconsistencia detectada: La sección '%s' no pertenece a la materia '%s'.") 
+                        % (record.seccion_id.name, record.materia_id.name)
+                    )
+
     # Validacion de suma de porcentajes por sección no supera 1.0 (100%)
     @api.constrains('porcentaje', 'seccion_id')
     def _check_porcentaje_total(self):

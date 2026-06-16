@@ -8,6 +8,7 @@
     "depends": ["base", "gestion_profesorado", "gestion_estudiantil", "gestion_materia"],
     "data": [
         "security/ir.model.access.csv",
+        "security/security_rules.xml",
         "data/gestion_evaluacion_data.xml",
         "views/tipo_evaluacion_views.xml",
         "views/attendance_inherit_views.xml",
