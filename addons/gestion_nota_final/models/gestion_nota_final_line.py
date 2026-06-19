@@ -125,7 +125,15 @@ class NotaFinalDetalle(models.Model):
         _logger.info(f"[NOTA_FINAL] Scores encontrados: {scores}")
         if not scores:
             return
-        promedio = sum(scores) / len(scores)
-        _logger.info(f"[NOTA_FINAL] Promedio calculado: {promedio}")
+
+        # Buscar la cantidad total de actividades configuradas para esta sección y tipo de evaluación
+        total_activities = self.env['gestion.activity'].search_count([
+            ('section_id', '=', self.nota_final_id.section_id.id),
+            ('tipo_evaluacion_id', '=', self.tipo_evaluacion.id),
+        ])
+        divisor = total_activities if total_activities > 0 else len(scores)
+
+        promedio = sum(scores) / divisor
+        _logger.info(f"[NOTA_FINAL] Promedio calculado: {promedio} (divisor={divisor})")
         self.promedio_tipo = promedio
         self.aporte = promedio * (self.peso or 0.0)

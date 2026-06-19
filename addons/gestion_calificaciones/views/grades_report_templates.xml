@@ -185,9 +185,8 @@
                                 <tbody>
                                     <t t-foreach="students" t-as="student">
                                         <t t-set="student_lines" t-value="lines.filtered(lambda l: l.student_id == student)"/>
-                                        <t t-set="scores" t-value="student_lines.mapped('score')"/>
-                                        <t t-set="avg_score" t-value="sum(scores) / len(scores) if scores else 0.0"/>
-                                        <t t-set="total_act" t-value="len(scores)"/>
+                                        <t t-set="avg_score" t-value="doc.get_student_average(student, student_lines)"/>
+                                        <t t-set="total_act" t-value="len(student_lines)"/>
                                         
                                         <tr>
                                             <td><span t-field="student.name"/></td>

@@ -40,6 +40,29 @@ class GestionExportCalificaciones(models.TransientModel):
             
         return self.env['grade.grade'].search(domain, order='student_id, date desc, activity_id')
 
+    def get_student_average(self, student, student_lines):
+        """Calcula el promedio del estudiante dividiendo entre el número total de actividades del curso/sección."""
+        if not student_lines:
+            return 0.0
+        
+        # Obtener las secciones de las actividades evaluadas
+        sections = student_lines.mapped('activity_id.section_id')
+        if not sections:
+            return 0.0
+        
+        # Buscar la cantidad total de actividades configuradas para estas secciones y materia
+        activity_domain = [('section_id', 'in', sections.ids)]
+        if self.subject_id:
+            activity_domain.append(('subject_id', '=', self.subject_id.id))
+            
+        total_activities = self.env['gestion.activity'].search_count(activity_domain)
+        
+        # Si no hay actividades configuradas, usamos la cantidad de calificaciones como fallback
+        divisor = total_activities if total_activities > 0 else len(student_lines)
+        
+        total_score = sum(student_lines.mapped('score'))
+        return total_score / divisor
+
     def action_export(self):
         self.ensure_one()
         if self.export_type == 'grades':
@@ -137,9 +160,8 @@ class GestionExportCalificaciones(models.TransientModel):
         row_idx = 8
         for student in students:
             student_lines = lines.filtered(lambda l: l.student_id == student)
-            scores = student_lines.mapped('score')
-            avg_score = sum(scores) / len(scores) if scores else 0.0
-            total_act = len(scores)
+            avg_score = self.get_student_average(student, student_lines)
+            total_act = len(student_lines)
 
             sheet_resumen.write(row_idx, 0, student.name or '', cell_left)
             sheet_resumen.write(row_idx, 1, student.enrollment_number or '', cell_format)
