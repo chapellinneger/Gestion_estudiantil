@@ -130,6 +130,20 @@ class NotaFinalDetalle(models.Model):
         ])
         if not grades:
             return
+        scores = grades.mapped('score')
+        _logger.info(f"[NOTA_FINAL] Scores encontrados: {scores}")
+        if not scores:
+            return
+
+        # Buscar la cantidad total de actividades configuradas para esta sección y tipo de evaluación
+        total_activities = self.env['gestion.activity'].search_count([
+            ('section_id', '=', self.nota_final_id.section_id.id),
+            ('tipo_evaluacion_id', '=', self.tipo_evaluacion.id),
+        ])
+        divisor = total_activities if total_activities > 0 else len(scores)
+
+        promedio = sum(scores) / divisor
+        _logger.info(f"[NOTA_FINAL] Promedio calculado: {promedio} (divisor={divisor})")
         
         _logger.info(f"[NOTA_FINAL] Buscando grades para tipo={self.tipo_evaluacion.name}, student={self.nota_final_id.student_id.name}, section={self.nota_final_id.section_id.name}, encontrados={len(grades)}")
         
