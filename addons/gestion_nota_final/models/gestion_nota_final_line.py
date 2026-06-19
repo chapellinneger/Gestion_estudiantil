@@ -113,19 +113,31 @@ class NotaFinalDetalle(models.Model):
 
     def _calcular_desde_calificaciones(self):
         Grade = self.env['grade.grade']
+        Activity = self.env['gestion.activity']
+        
+        actividades = Activity.search([
+            ('tipo_evaluacion_id', '=', self.tipo_evaluacion.id),
+            ('section_id', '=', self.nota_final_id.section_id.id),
+        ])
+
+        total_actividades = len(actividades)
+        if total_actividades == 0:
+            return
+        
         grades = Grade.search([
             ('student_id', '=', self.nota_final_id.student_id.id),
-            ('activity_id.section_id', '=', self.nota_final_id.section_id.id),
-            ('activity_id.tipo_evaluacion_id', '=', self.tipo_evaluacion.id),
+            ('activity_id', 'in', actividades.ids),
         ])
-        _logger.info(f"[NOTA_FINAL] Buscando grades para tipo={self.tipo_evaluacion.name}, student={self.nota_final_id.student_id.name}, section={self.nota_final_id.section_id.name}, encontrados={len(grades)}")
         if not grades:
             return
-        scores = grades.mapped('score')
-        _logger.info(f"[NOTA_FINAL] Scores encontrados: {scores}")
-        if not scores:
-            return
-        promedio = sum(scores) / len(scores)
-        _logger.info(f"[NOTA_FINAL] Promedio calculado: {promedio}")
+        
+        _logger.info(f"[NOTA_FINAL] Buscando grades para tipo={self.tipo_evaluacion.name}, student={self.nota_final_id.student_id.name}, section={self.nota_final_id.section_id.name}, encontrados={len(grades)}")
+        
+        scores_entregadas = grades.mapped('score')
+        suma_notas = sum(scores_entregadas)        
+        promedio = suma_notas / total_actividades
+        _logger.info(f"[NOTA_FINAL] Scores entregadas: {scores_entregadas}")
+        _logger.info(f"[NOTA_FINAL] Total actividades: {total_actividades}, Promedio calculado: {promedio}")
+    
         self.promedio_tipo = promedio
         self.aporte = promedio * (self.peso or 0.0)
