@@ -7,7 +7,11 @@ class GestionActivity(models.Model):
 
     name = fields.Char(string='Título de la Tarea', required=True)
     description = fields.Html(string='Instrucciones')
-    date_deadline = fields.Date(string='Fecha de Entrega')
+
+    date_deadline = fields.Date(string='Fecha Antigua (Backup)')
+    
+    # Creamos el NUEVO campo con soporte de hora
+    datetime_deadline = fields.Datetime(string='Fecha y Hora Límite')
     
     teacher_id = fields.Many2one('gestion.teacher', string='Profesor Responsable', required=True)
     
