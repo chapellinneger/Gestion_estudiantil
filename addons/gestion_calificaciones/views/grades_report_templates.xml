@@ -186,7 +186,7 @@
                                     <t t-foreach="students" t-as="student">
                                         <t t-set="student_lines" t-value="lines.filtered(lambda l: l.student_id == student)"/>
                                         <t t-set="avg_score" t-value="doc.get_student_average(student, student_lines)"/>
-                                        <t t-set="total_act" t-value="len(student_lines)"/>
+                                        <t t-set="total_act" t-value="doc.get_student_total_activities(student, student_lines)"/>
                                         
                                         <tr>
                                             <td><span t-field="student.name"/></td>

@@ -63,6 +63,19 @@ class GestionExportCalificaciones(models.TransientModel):
         total_score = sum(student_lines.mapped('score'))
         return total_score / divisor
 
+    def get_student_total_activities(self, student, student_lines):
+        """Retorna la cantidad total de actividades publicadas por el profesor para las secciones evaluadas."""
+        if not student_lines:
+            return 0
+        sections = student_lines.mapped('activity_id.section_id')
+        if not sections:
+            return 0
+        activity_domain = [('section_id', 'in', sections.ids)]
+        if self.subject_id:
+            activity_domain.append(('subject_id', '=', self.subject_id.id))
+        total_activities = self.env['gestion.activity'].search_count(activity_domain)
+        return total_activities if total_activities > 0 else len(student_lines)
+        
     def action_export(self):
         self.ensure_one()
         if self.export_type == 'grades':
@@ -161,7 +174,7 @@ class GestionExportCalificaciones(models.TransientModel):
         for student in students:
             student_lines = lines.filtered(lambda l: l.student_id == student)
             avg_score = self.get_student_average(student, student_lines)
-            total_act = len(student_lines)
+            total_act = self.get_student_total_activities(student, student_lines)
 
             sheet_resumen.write(row_idx, 0, student.name or '', cell_left)
             sheet_resumen.write(row_idx, 1, student.enrollment_number or '', cell_format)

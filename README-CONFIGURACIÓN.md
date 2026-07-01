@@ -55,6 +55,6 @@ Para avanzar con orden, dividiremos el trabajo en 4 fases consecutivas:
 - Crear los archivos de herencia para gestion.activity y el módulo de asistencias.
 - Escribir los archivos XML que heredan las vistas originales mediante inherit_id y usar <xpath> para inyectar el campo tipo_evaluacion_id de forma estética en los formularios que ya existen.
 
-### Fase 4: Coordinación:
+### Fase 4: Coordinación
 
 - Aquí sería ponernos de acuerdo los líderes para corroborar que todo esté correcto y coordinar lo que se vaya a realizar en conjunto.
