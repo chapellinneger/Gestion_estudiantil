@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Regla: Cada profesor solo ve los Tipos de Evaluación de sus propias secciones -->
+    <record id="rule_tipo_evaluacion_profesor" model="ir.rule">
+        <field name="name">Tipos de Evaluación: Profesores solo ven los suyos</field>
+        <field name="model_id" ref="model_gestion_tipo_evaluacion"/>
+        <field name="domain_force">[('seccion_id.teacher_id.user_ids', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('gestion_profesorado.group_profesor'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <!-- Regla: Los estudiantes solo pueden ver Tipos de Evaluación de sus secciones -->
+    <record id="rule_tipo_evaluacion_estudiante" model="ir.rule">
+        <field name="name">Tipos de Evaluación: Estudiantes solo ven los de sus secciones</field>
+        <field name="model_id" ref="model_gestion_tipo_evaluacion"/>
+        <field name="domain_force">[('seccion_id.student_ids.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('gestion_estudiantil.group_estudiante'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+</odoo>

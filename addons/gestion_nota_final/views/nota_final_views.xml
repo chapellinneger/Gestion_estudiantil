@@ -1,0 +1,80 @@
+<odoo>
+    <record id="view_nota_final_search" model="ir.ui.view">
+        <field name="name">gestion.nota.final.search</field>
+        <field name="model">gestion.nota.final</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_nombre" string="Estudiante"/>
+                <field name="subject_id" string="Materia"/>
+                <field name="section_id" string="Sección"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_nota_final_list" model="ir.ui.view">
+        <field name="name">gestion.nota.final.list</field>
+        <field name="model">gestion.nota.final</field>
+        <field name="arch" type="xml">
+            <list string="Notas finales por estudiante" create="0" edit="0" delete="0">
+                <field name="student_nombre" string="Nombre"/>
+                <field name="subject_id" string="Materia"/>
+                <field name="section_id" string="Sección"/>
+                <field name="teacher_id" string="Profesor"/>
+                <field name="promedio" string="Promedio"/>
+                <field name="nota_final" string="Nota Final"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_nota_final_form" model="ir.ui.view">
+        <field name="name">gestion.nota.final.form</field>
+        <field name="model">gestion.nota.final</field>
+        <field name="arch" type="xml">
+            <form string="Detalle de notas - estudiante" create="0" edit="0" delete="0">
+                <header>
+                    <button name="action_recalculate" type="object" string="Sincronizar Notas" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group string="Información del estudiante">
+                        <field name="student_nombre" readonly="1" string="Nombre completo"/>
+                        <field name="subject_id" readonly="1"/>
+                        <field name="section_id" readonly="1"/>
+                        <field name="teacher_id" readonly="1" string="Profesor"/>
+                    </group>
+                    <group string="Resumen de notas">
+                        <field name="promedio" readonly="1"/>
+                        <field name="nota_final" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Desglose por tipo de evaluación">
+                            <field name="detalle_ids" nolabel="1">
+                                <list create="0" edit="0" delete="0">
+                                    <field name="tipo_evaluacion" string="Tipo de nota"/>
+                                    <field name="promedio_tipo" string="Puntaje obtenido"/>
+                                    <field name="peso" string="Porcentaje"/>
+                                    <field name="aporte" string="Aporte final"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_nota_final" model="ir.actions.act_window">
+        <field name="name">Notas finales de estudiantes</field>
+        <field name="res_model">gestion.nota.final</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_nota_final_list"/>
+        <field name="search_view_id" ref="view_nota_final_search"/>
+        <field name="help" type="html">
+            <p>Lista todos los estudiantes y sus notas finales. Haz clic en un estudiante para ver el detalle.</p>
+        </field>
+    </record>
+
+    <menuitem   id="menu_nota_final_root" 
+                name="Gestion Notas Finales" 
+                sequence="95" 
+                action="action_nota_final"/>
+</odoo>

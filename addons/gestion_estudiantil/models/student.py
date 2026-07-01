@@ -26,7 +26,6 @@ class Student(models.Model):
                 # Create user automatically
                 # Use email as login if available, otherwise name (or handle error)
                 login = record.email or record.name or 'student_%s' % record.id
-                
                 user_vals = {
                     'name': record.name,
                     'login': login,
