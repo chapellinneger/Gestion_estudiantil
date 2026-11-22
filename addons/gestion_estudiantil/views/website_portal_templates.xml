@@ -169,8 +169,8 @@
                                             <t t-out="act.description"/>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-end mt-3">
-                                            <small class="text-danger" t-if="act.date_deadline">
-                                                <i class="fa fa-clock-o me-1"/> Entrega: <span t-field="act.date_deadline"/>
+                                            <small class="text-danger" t-if="act.datetime_deadline">
+                                                <i class="fa fa-clock-o me-1"/> Entrega: <span t-field="act.datetime_deadline"/>
                                             </small>
                                             <a t-attf-href="/my/activities/#{act.id}" class="btn btn-sm btn-primary">Ver / Entregar</a>
                                         </div>
@@ -197,11 +197,11 @@
                     
                     <div class="card shadow-sm border-0 bg-white p-4 mt-3">
                         <h5 class="text-primary">Instrucciones del Profesor:</h5>
-                        <div t-raw="activity.description" class="mb-4 text-muted mt-2"/>
+                        <div t-out="activity.description" class="mb-4 text-muted mt-2"/>
                         
-                        <p class="text-danger" t-if="activity.date_deadline">
+                        <p class="text-danger" t-if="activity.datetime_deadline">
                             <strong><i class="fa fa-calendar"/> Fecha límite de entrega: </strong> 
-                            <span t-field="activity.date_deadline"/>
+                            <span t-field="activity.datetime_deadline"/>
                         </p>
 
                         <hr/>
@@ -210,20 +210,27 @@
                             <i class="fa fa-check-circle"/> ¡Tu archivo ha sido enviado correctamente! El profesor ya ha sido notificado.
                         </div>
 
-                        <h5 class="mb-3 mt-2">Subir mi entrega</h5>
-                        <form action="/gestion/actividad/subir" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <input type="hidden" name="activity_id" t-att-value="activity.id"/>
-                            
-                            <div class="mb-3">
-                                <label for="archivo_tarea" class="form-label text-muted">Selecciona tu archivo (PDF, Word, Excel, etc.):</label>
-                                <input type="file" name="archivo_tarea" id="archivo_tarea" class="form-control" required="1"/>
+                        <t t-if="not activity.datetime_deadline or datetime.datetime.now() &lt;= activity.datetime_deadline">
+                            <h5 class="mb-3 mt-2">Subir mi entrega</h5>
+                            <form action="/gestion/actividad/subir" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="activity_id" t-att-value="activity.id"/>
+                                
+                                <div class="mb-3">
+                                    <label for="archivo_tarea" class="form-label text-muted">Selecciona tu archivo (PDF, Word, Excel, etc.):</label>
+                                    <input type="file" name="archivo_tarea" id="archivo_tarea" class="form-control" required="1"/>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-upload"/> Enviar Tarea
+                                </button>
+                            </form>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-danger mt-3">
+                                <i class="fa fa-exclamation-triangle me-2"/> <strong>Plazo de entrega finalizado:</strong> La fecha y hora límite para subir esta actividad venció el <span t-field="activity.datetime_deadline"/>.
                             </div>
-                            
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-upload"/> Enviar Tarea
-                            </button>
-                        </form>
+                        </t>
                     </div>
                 </div>
             </t>
